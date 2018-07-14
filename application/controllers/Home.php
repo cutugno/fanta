@@ -18,5 +18,11 @@ class Home extends CI_Controller {
 		$this->load->view('common/close');		
 	
 	}
+	
+	public function migratedown() {
+		$this->load->library('migration_lib',NULL,'migr');
+		$this->migr->generate();
+	}
+		
 }
 
