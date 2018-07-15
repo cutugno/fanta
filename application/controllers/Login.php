@@ -12,8 +12,10 @@ class Login extends CI_Controller {
 			audit_log("Error: login già effettuato. (login/index)");
 			redirect('home');
 		}
+		
+		$data['bodyclass']="login-img3-body";
 								
-		$this->load->view('common/open');
+		$this->load->view('common/open',$data);
 		$this->load->view('login/index');
 		$this->load->view('common/scripts');
 		$this->load->view('login/index_scripts');
@@ -28,7 +30,7 @@ class Login extends CI_Controller {
 			audit_log("Error: accesso non autorizzato. (login/logout)");
 			redirect('home');
 		}else{			
-			audit_log("Message: logout effettuato. Dati utente: ".json_encode($this->session->bo_user).". (login/logout)");
+			audit_log("Message: logout effettuato. Dati utente: ".json_encode($this->session->user).". (login/logout)");
 			$this->session->sess_destroy();		
 			redirect('login');
 		}

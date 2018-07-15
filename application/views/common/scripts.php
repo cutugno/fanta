@@ -2,22 +2,35 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script src="<?php echo site_url('assets/js/jquery-2.2.4.min.js') ?>"></script>
-<script src="<?php echo site_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
-<script src="<?php echo site_url('assets/js/jquery-ui.min.js') ?>"></script>
-<script type="text/javascript" src="<?= site_url('assets/js/jasny-bootstrap.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/jquery-ui-timepicker-addon.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/sweetalert2.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/jquery.tablesorter.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/jquery.tablesorter.pager.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/jquery.tablesorter.widgets.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/my_tablesorter.js') ?>"></script>
+<!-- javascripts -->
+<script src="<?=site_url('js/jquery.js') ?>"></script>
+<script src="<?=site_url('js/jquery-ui-1.10.4.min.js') ?>"></script>
+<script src="<?=site_url('js/jquery-1.8.3.min.js') ?>"></script>
+<script type="text/javascript" src="<?=site_url('js/jquery-ui-1.9.2.custom.min.js') ?>"></script>
+<!-- bootstrap -->
+<script src="<?=site_url('js/bootstrap.min.js') ?>"></script>
+<!-- nice scroll -->
+<script src="<?=site_url('js/jquery.scrollTo.min.js') ?>"></script>
+<script src="<?=site_url('js/jquery.nicescroll.js') ?>" type="text/javascript"></script>
+<!-- charts scripts -->
+<script src="<?=site_url('assets/jquery-knob/js/jquery.knob.js') ?>"></script>
+<script src="<?=site_url('js/jquery.sparkline.js') ?>" type="text/javascript"></script>
+<script src="<?=site_url('assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js') ?>"></script>
+<script src="<?=site_url('js/owl.carousel.js') ?>"></script>
+<!-- jQuery full calendar -->
+<script src="<?=site_url('js/fullcalendar.min.js') ?>"></script>
+<!-- swal -->
+<script src="<?=site_url('js/sweetalert2.min.js') ?>"></script>
+<!-- Full Google Calendar - Calendar -->
+<script src="<?=site_url('assets/fullcalendar/fullcalendar/fullcalendar.js') ?>"></script>
+<!--script for this page only-->
+<script src="<?=site_url('js/calendar-custom.js') ?>"></script>
+<script src="<?=site_url('js/jquery.rateit.min.js') ?>"></script>
+<!-- custom select -->
+<script src="<?=site_url('js/jquery.customSelect.min.js') ?>"></script>
+<script src="<?=site_url('assets/chart-master/Chart.js') ?>"></script>
 
-<!-- per mappa -->
-<script type="text/javascript" src="<?php echo site_url('assets/js/hammer.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/jquery.mousewheel.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/js/map_script.js') ?>"></script>
-<script type="text/javascript" src="<?php echo site_url('assets/mapplic/mapplic.js') ?>"></script>
+<!--custome script for all page-->
+<script src="<?=site_url('js/scripts.js') ?>"></script>
 
-<script type="text/javascript" src="<?php echo site_url('assets/js/common.js'); ?>"></script>
 

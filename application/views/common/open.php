@@ -7,23 +7,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<meta charset="utf-8">
 	<title>FANTA</title>
-	<link rel="stylesheet" href="<?php echo site_url('assets/bootstrap/css/bootstrap.min.css')?>">
-	<link rel="stylesheet" href="<?php echo site_url('assets/css/jquery-ui.css') ?>">
-	<link rel="stylesheet" href="<?php echo site_url('assets/css/jasny-bootstrap.min.css') ?>">
-	<link rel="stylesheet" href="<?php echo site_url('assets/css/jquery-ui-timepicker-addon.css') ?>">
-	<link rel="stylesheet" href="<?php echo site_url('assets/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
-    <link rel="stylesheet" href="<?php echo site_url('assets/css/sweetalert2.min.css') ?>">
-    <link rel="stylesheet" href="<?php echo site_url('assets/css/tablesorter.css') ?>">
-	<link rel="stylesheet" href="<?php echo site_url('assets/css/jquery.tablesorter.pager.css') ?>">
-    
-   <!-- per mappa -->
-    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<?php echo site_url('assets/css/map.css') ?>">
-    <link rel="stylesheet" href="<?php echo site_url('assets/mapplic/mapplic.css') ?>">
-    <link rel="stylesheet" href="<?php echo site_url('assets/css/custom.css') ?>">
-
-    <!-- Dropdown+autocomplete -->
-    <link rel="stylesheet" href="<?php echo site_url('assets/css/select2.min.css') ?>">
+	
+	<!-- Bootstrap CSS -->
+  <link href="<?=site_url('css/bootstrap.min.css') ?>" rel="stylesheet">
+  <!-- bootstrap theme -->
+  <link href="<?=site_url('css/bootstrap-theme.css') ?>" rel="stylesheet">
+  <!--external css-->
+  <!-- font icon -->
+  <link href="<?=site_url('css/elegant-icons-style.css') ?>" rel="stylesheet" />
+  <link href="<?=site_url('css/font-awesome.min.css') ?>" rel="stylesheet" />
+  <!-- full calendar css-->
+  <link href="<?=site_url('assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css') ?>" rel="stylesheet" />
+  <link href="<?=site_url('assets/fullcalendar/fullcalendar/fullcalendar.css') ?>" rel="stylesheet" />
+  <!-- easy pie chart-->
+  <link href="<?=site_url('assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css') ?>" rel="stylesheet" type="text/css" media="screen" />
+  <!-- owl carousel -->
+  <link rel="stylesheet" href="<?=site_url('css/owl.carousel.css') ?>" type="text/css">
+  <link href="<?=site_url('css/jquery-jvectormap-1.2.2.css') ?>" rel="stylesheet">
+  <!-- swal -->
+  <link href="<?=site_url('css/sweetalert2.min.css') ?>" rel="stylesheet">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="<?=site_url('css/fullcalendar.css') ?>">
+  <link href="<?=site_url('css/widgets.css') ?>" rel="stylesheet">
+  <link href="<?=site_url('css/style.css') ?>" rel="stylesheet">
+  <link href="<?=site_url('css/style-responsive.css') ?>" rel="stylesheet" />
+  <link href="<?=site_url('css/xcharts.min.css') ?>" rel=" stylesheet">
+  <link href="<?=site_url('css/jquery-ui-1.10.4.min.css') ?>" rel="stylesheet">
+	
 </head>
-<body>
+<body class="<?= $bodyclass ?>">
