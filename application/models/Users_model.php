@@ -14,18 +14,25 @@
 				return $query->row();			
 			}
 			
-			public function setLastLogin ($user) {
+			public function setLastLogin ($username) {
 				$query=$this->db->set('last_login','now()',false)
-								->where('id',$user)
+								->where('username',$user)
 								->update('users');
 				return $this->db->affected_rows() > 0;
 			}
 			
-			public function updateUser($dati,$id) {
+			public function updateUser($dati,$username) {
 				$query=$this->db->set($dati)
-								->where('id',$id)
+								->where('username',$username)
 								->update('users');
 				return $query;
+			}
+			
+			public function listUsers() {
+				$query=$this->db->where('level !=',3)
+								->order_by('username')
+								->get('users');
+				return $query->result();
 			}
 			
 	}

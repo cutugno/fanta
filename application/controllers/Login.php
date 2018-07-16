@@ -57,7 +57,7 @@ class Login extends CI_Controller {
 	
 		if ($user=$this->users->checkLogin($post)) {
 			$this->session->user=$user;			
-			$this->users->setLastLogin($user->id);
+			$this->users->setLastLogin($user->username);
 			audit_log("Message: login effettuato. Dati utente: ".json_encode($user).". (login/index)");
 			http_response_code(200);
 		}else{
@@ -98,7 +98,7 @@ class Login extends CI_Controller {
 
 		if ($this->form_validation->run() !== FALSE) {	
 			$dati['password']=sha1($post['new_password']);
-			if ($this->users->updateUser($dati,$this->session->user->id)) {				
+			if ($this->users->updateUser($dati,$this->session->user->username)) {				
 				$echo="Password aggiornata. La nuova password sarà valida dal prossimo login";
 				http_response_code(200);
 			}else{

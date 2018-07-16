@@ -20,9 +20,10 @@ class Admin extends CI_Controller {
 	public function users()	{	
 		/* GESTIONE UTENTI */
 		
-		$this->output->enable_profiler(true);
+		$this->output->enable_profiler(false);
 		
 		// ELENCO UTENTI
+		$data['users']=$this->users->listUsers();
 		
 			
 		$data['bodyclass']="";
