@@ -1,9 +1,9 @@
 <script type="text/javascript">
 	
 	$(function () {
-		$("#user").focus();
+		$("input[name='username']").focus();
 	});
-	
+
 	// login
 	$("#btn_login").click(function(event) {
 		event.preventDefault();

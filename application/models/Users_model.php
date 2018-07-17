@@ -21,6 +21,11 @@
 				return $this->db->affected_rows() > 0;
 			}
 			
+			public function createUser($dati) {
+				$query=$this->db->set($dati)->insert('users');
+				return $query;
+			}
+			
 			public function updateUser($dati,$username) {
 				$query=$this->db->set($dati)
 								->where('username',$username)

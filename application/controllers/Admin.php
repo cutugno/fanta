@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		
+		/*
 		if (!$this->session->user) {
 			audit_log("Error: login non effettuato. (".$this->uri->uri_string().")");
 			redirect('login');
@@ -14,6 +15,7 @@ class Admin extends CI_Controller {
 			audit_log("Error: accesso non autorizzato. (".$this->uri->uri_string().")");
 			show_404();
 		}
+		*/ 
 	}
 		
 	
@@ -25,8 +27,6 @@ class Admin extends CI_Controller {
 		// ELENCO UTENTI
 		$data['users']=$this->users->listUsers();
 		
-			
-		$data['bodyclass']="";
 		
 		$this->load->view('common/open',$data);
 		$this->load->view('common/navigation');
@@ -35,6 +35,33 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/users_scripts');
 		$this->load->view('common/close');		
 	
+	}
+	
+	
+	public function user_create() {
+		if (!$this->input->post()) {
+			http_response_code(400);
+			die("Nessun dato inviato");
+		}
+				
+		$mandatory=["username","password","nome"];
+		foreach ($mandatory as $m) {
+			if (!$this->input->post($m)) {
+				http_response_code(400);
+				die("Campo $m obbligatorio");
+				break;
+			}
+		} 
+		
+		$post=$this->input->post();
+		$post['password']=sha1($post['password']);
+		unset($post['c_password']);
+		if ($this->users->createUser($post)) {
+			echo "Utente creato";
+		}else{
+			http_response_code(500);
+			die("Errore db creazione utente");
+		}		
 	}
 		
 		

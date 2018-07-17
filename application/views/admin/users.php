@@ -2,109 +2,181 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
- <!--main content start-->
-   <section id="main-content">
-      <section class="wrapper">
-		  <div class="row">
-           <div class="col-lg-12">
-            <h3 class="page-header"><i class="icon_profile"></i> Gestione utenti</h3>
-            <ol class="breadcrumb">
-              <li><i class="icon_lightbulb"></i><a href="<?= site_url('admin/users') ?>">Admin</a></li>
-              <li><i class="icon_profile"></i>Gestione utenti</li>              
-            </ol>
-          </div>
-        </div>
-        
-         <div class="row">
-          <div class="col-lg-12">
-			  
-			 <section class="panel">
-              <header class="panel-heading">
-               Elenco utenti
-              </header>
-              <div class="panel-body">
-				  <?php if ($users) : ?>
-				 <div class="table-responsive">
-					<table class="table">
-					  <thead>
-						<tr>
-						  <th></th>
-						  <th>Username</th>
-						  <th>Nome</th>
-						  <th>Ultimo login</th>
-						  <th></th>
-						</tr>
-					  </thead>
-					  <tbody>
-						  <?php foreach ($users as $user) : ?>
-						<tr>
-						  <td>avatar</td>
-						  <td><?= $user->username ?></td>
-						  <td><?= $user->nome ?></td>
-						  <td><?= convertDateTime($user->last_login) ?></td>
-						  <td>
-							  <div class="btn-group">
-								<a class="btn btn-info" href="<?= site_url('admin/users/edit/'.$user->username) ?>"><i class="icon_pencil"></i></a>
-								<a class="btn btn-danger" href="<?= site_url('admin/users/delete/'.$user->username) ?>"><i class="icon_close_alt"></i></a>
-							  </div>
-						  </td>
-						</tr>
-						<?php endforeach ?>
-					  </tbody>
-					</table>
-				  </div>
-				  <?php else : ?>
-				  Nessun utente presente
-				  <?php endif ?>
-              </div>
-            </section>  
-			  
-            <section class="panel">
-              <header class="panel-heading">
-               Nuovo utente
-              </header>
-              <div class="panel-body">
-                <form class="form-horizontal" method="get">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Username</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                      <input type="password" class="form-control">                      
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Conferma Password</label>
-                    <div class="col-sm-10">
-                      <input type="password" class="form-control">                      
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Nome</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Avatar</label>
-                    <div class="col-sm-10">
-                      <input class="form-control" id="focusedInput" type="text" value="This is focused...">
-                    </div>
-                  </div>
-                  <div class="form-group">
-					<div class="col-sm-10 col-sm-offset-2">
-						<a class="btn btn-success" href="" title="Bootstrap 3 themes generator"><span class="icon_mic_alt"></span> Success</a>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			<h3 class="page-header"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Admin</h3>
+			<ol class="breadcrumb">
+			  <li><i class="fa fa-lightbulb-o" aria-hidden="true"></i><a href="<?= site_url('admin/users') ?>"> Admin</a></li>
+			  <li><i class="fa fa-user"></i> Gestione utenti</li>
+			</ol>
+		</div>
+	</div>	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Elenco utenti</h3>
+		</div>	
+		<div class="panel-body">
+			<?php if ($users) : ?>		
+			<table class="table table-bordered table-condensed tablesorter">
+				<colgroup>
+					<col width="180" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="text-center">USERNAME</th>
+						<th class="text-center">NOME</th>
+						<th class="text-center filter-false">ULTIMO LOGIN</th>						
+						<th class="filter-false sorter-false"></th>
+					</tr>
+				</thead>	
+				<tbody>	
+				<?php foreach ($users as $val) : ?>	
+					<tr>
+						<td class="text-center"><?= $val->username ?></td>
+						<td class="text-center"><?= $val->nome ?></td>
+						<td class="text-center"><?= isset($val->last_login) ? convertDateTime($val->last_login) : "-" ?></td>						
+						<td class="text-center">
+							<a href="<?php echo site_url('admin/users/edit/'.$val->username) ?>">
+							<?php
+								$attr = array(
+										'class'			=> 'btn btn-info btn-sm btn_manage_user',
+										'type'          => 'button',
+										'content'		=> '<i class="fa fa-pencil" aria-hidden="true"></i> Modifica'
+								);
+								echo form_button($attr);
+							?>	
+							</a>					
+							<?php
+								$attr = array(
+										'class'			=> 'btn btn-warning btn-sm btn_delete_user',
+										'type'          => 'button',
+										'content'		=> '<i class="fa fa-eraser" aria-hidden="true"></i> Cancella',
+										'data-username' => $val->username
+								);
+								echo form_button($attr);
+							?>									
+						</td>
+					</tr>
+				<?php endforeach ?>
+				</tbody>
+			</table>
+			<?php else : ?>
+			Nessuna data disponibile
+			<?php endif ?>		
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Nuovo utente</h3>
+		</div>	
+		<div class="panel-body">
+			<?php 
+				$attr=array("class"=>"form-horizontal","id"=>"login_form");
+				echo form_open("#",$attr);
+			?>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Username *</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'username',						
+									'id'            => 'username',						
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Inserisci username'
+								);
+								echo form_input($attr);					
+							?>					
+						</div>
 					</div>
-                  </div>
-                  
-                </form>
-              </div>
-            </section>
-          </div>
-       </div>        
-	</section>
-  </section>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Password *</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'password',		
+									'id'			=> 'password',				
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Inserisci password (min 6 caratteri)'
+								);
+								echo form_password($attr);					
+							?>	            
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Conferma *</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'c_password',						
+									'id'            => 'c_password',						
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Conferma password'
+								);
+								echo form_password($attr);					
+							?>	             
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Nome *</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'nome',						
+									'id'     	    => 'nome',						
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Inserisci nome'
+								);
+								echo form_input($attr);					
+							?>	  
+						</div>
+					</div>							
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Email</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'email',						
+									'id'            => 'email',						
+									'class'			=> 'form-control',
+									'type'			=> 'email',
+									'placeholder'	=> 'Inserisci email'
+								);
+								echo form_input($attr);					
+							?>	  
+						</div>
+					</div>							
+				</div>
+				<div class="col-xs-12 col-sm-6">
+					<!-- avatar -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<?php
+								$attr = array(
+										'id'            => 'btn_create',
+										'class'			=> 'btn btn-primary',
+										'type'          => 'submit',
+										'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva utente'
+								);
+								echo form_button($attr);
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?= form_close() ?>
+		</div>
+	</div>	  
+</div>
+			  
+            

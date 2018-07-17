@@ -12,10 +12,8 @@ class Login extends CI_Controller {
 			audit_log("Error: login già effettuato. (login/index)");
 			redirect('home');
 		}
-		
-		$data['bodyclass']="login-img3-body";
 								
-		$this->load->view('common/open',$data);
+		$this->load->view('common/open');
 		$this->load->view('login/index');
 		$this->load->view('common/scripts');
 		$this->load->view('login/index_scripts');

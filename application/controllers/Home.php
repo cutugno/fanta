@@ -24,9 +24,9 @@ class Home extends CI_Controller {
 		
 		$this->load->view('common/open',$data);
 		$this->load->view('common/navigation');
-		$this->load->view('home/index');
+		$this->load->view('home/dashboard');
 		$this->load->view('common/scripts');
-		$this->load->view('home/index_scripts');
+		$this->load->view('home/dashboard_scripts');
 		$this->load->view('common/close');		
 	
 	}
