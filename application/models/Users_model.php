@@ -16,7 +16,7 @@
 			
 			public function setLastLogin ($username) {
 				$query=$this->db->set('last_login','now()',false)
-								->where('username',$user)
+								->where('username',$username)
 								->update('users');
 				return $this->db->affected_rows() > 0;
 			}
