@@ -61,3 +61,15 @@ var validation_user_messages=
 			email: "Formato email non valido"
 		}
 	};
+	
+var validation_calendar_rules=
+	{
+		"giornata[][descr]": {
+			required: true
+		}
+	};
+	
+var validation_calendar_messages=
+	{
+		"giornata[][descr]": "Campo obbligatorio"
+	};

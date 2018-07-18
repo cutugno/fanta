@@ -23,7 +23,6 @@ class Admin extends CI_Controller {
 		/* GESTIONE UTENTI */
 		
 		$data['users']=$this->users->listUsers();
-		audit_log("Message: Caricata lista utenti. (".$this->uri->uri_string().")");
 		
 		$this->load->view('common/open',$data);
 		$this->load->view('common/navigation');
@@ -34,6 +33,31 @@ class Admin extends CI_Controller {
 	
 	}
 	
+	public function calendar()	{	
+		/* GESTIONE CALENDARIO */
+		
+		$this->load->view('common/open');
+		$this->load->view('common/navigation');
+		$this->load->view('admin/calendar');
+		$this->load->view('common/scripts');
+		$this->load->view('admin/calendar_scripts');
+		$this->load->view('common/close');		
+	
+	}
+	
+	public function calendar_read() {
+		if ($calendar=$this->giornate->listGiornate()) {
+			foreach ($calendar as &$giornata) {
+				$giornata->inizio=convertDateTime($giornata->inizio,1);
+				$giornata->fine=convertDateTime($giornata->fine,1);
+			}		
+		}
+		echo json_encode($calendar);
+	}	
+	
+	public function calendar_update() {
+		echo json_encode($this->input->post());
+	}
 	
 	public function user_create() {
 		if (!$this->input->post()) {
