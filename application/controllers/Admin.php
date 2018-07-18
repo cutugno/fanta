@@ -56,7 +56,19 @@ class Admin extends CI_Controller {
 	}	
 	
 	public function calendar_update() {
-		echo json_encode($this->input->post());
+		if (!$this->input->post()) {
+			$error="Nessun dato inviato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		$post=$this->input->post();
+		foreach ($post['giornata'] as $giornata) {
+			// se fine < inizio errore
+			// se isset(id) faccio update altrimenti insert
+		}
+		echo json_encode($post['giornata']);
 	}
 	
 	public function user_create() {

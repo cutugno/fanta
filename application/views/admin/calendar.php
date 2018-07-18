@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<button class="btn btn-small btn-success" id="btn_addcalendar">Aggiungi</button>
+					<button class="btn btn-small btn-success" id="btn_addcalendar">Aggiungi giornata</button>
 				</div>
 			</div>
 			<?php 
@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</colgroup>
 						<thead>
 							<tr>
-								<th class="text-center">DESCRIZIONE</th>
+								<th class="text-center filter-false">DESCRIZIONE</th>
 								<th class="text-center sorter-false filter-false">INIZIO</th>
 								<th class="text-center sorter-false filter-false">FINE</th>						
 								<th class="filter-false sorter-false"></th>
@@ -70,14 +70,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>	
 </div>
-			  
+		
+<template id="tpl_btn_add_matches">
+	<input type="hidden" name="giornata[%c%][id]" value="%id%">
+	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%"> Aggiungi partite</button>
+</template>		
+<template id="tpl_btn_delete_calendar">
+	<button type="button" class="btn btn-small btn-danger btn_delete_calendar"> Cancella</button>	  
+</template>
 <template id="tpl_giornata">
 <tr>
-	<td><input type="text" class="form-control" name="giornata[][descr]" value="%descr%"></td>
-	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[][inizio]" value="%inizio%"></td>
-	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[][fine]" value="%fine%"></td>
-	<td class="text-center"><button type="button" class="btn btn-small btn-info btn_add_matches"> Aggiungi partite</button>
-		<button type="button" class="btn btn-small btn-danger btn_delete_calendar"> Cancella</button>
+	<td><input type="text" class="form-control tofocus" name="giornata[%c%][descr]" value="%descr%" required></td>
+	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[%c%][inizio]" value="%inizio%" required regex="^(3[01]|[12][0-9]|0?[1-9])\/(1[012]|0?[1-9])\/((?:19|20)\d{2})\s(2[0-3]|[01][0-9])\:([0-5][0-9])$"></td>
+	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[%c%][fine]" value="%fine%" required regex="^(3[01]|[12][0-9]|0?[1-9])\/(1[012]|0?[1-9])\/((?:19|20)\d{2})\s(2[0-3]|[01][0-9])\:([0-5][0-9])$"></td>
+	<td class="text-center">
+		%buttons%		
 	</td>
 </tr>
 </template>
