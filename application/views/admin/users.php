@@ -9,78 +9,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<h3 class="page-header"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Admin</h3>
 			<ol class="breadcrumb">
 			  <li><i class="fa fa-lightbulb-o" aria-hidden="true"></i><a href="<?= site_url('admin/users') ?>"> Admin</a></li>
-			  <li><i class="fa fa-user"></i> Gestione utenti</li>
+			  <li><i class="fa fa-users"></i> Gestione utenti</li>
 			</ol>
 		</div>
 	</div>	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Elenco utenti</h3>
-		</div>	
-		<div class="panel-body">
-			<?php if ($users) : ?>		
-			<table class="table table-bordered table-condensed tablesorter">
-				<colgroup>
-					<col width="180" />
-					<col width="150" />
-					<col width="150" />
-					<col width="150" />
-				</colgroup>
-				<thead>
-					<tr>
-						<th class="text-center">USERNAME</th>
-						<th class="text-center">NOME</th>
-						<th class="text-center filter-false">ULTIMO LOGIN</th>						
-						<th class="filter-false sorter-false"></th>
-					</tr>
-				</thead>	
-				<tbody>	
-				<?php foreach ($users as $val) : ?>	
-					<tr>
-						<td class="text-center"><?= $val->username ?></td>
-						<td class="text-center"><?= $val->nome ?></td>
-						<td class="text-center"><?= isset($val->last_login) ? convertDateTime($val->last_login) : "-" ?></td>						
-						<td class="text-center">
-							<a href="<?php echo site_url('admin/users/edit/'.$val->username) ?>">
-							<?php
-								$attr = array(
-										'class'			=> 'btn btn-info btn-sm btn_manage_user',
-										'type'          => 'button',
-										'content'		=> '<i class="fa fa-pencil" aria-hidden="true"></i> Modifica'
-								);
-								echo form_button($attr);
-							?>	
-							</a>					
-							<?php
-								$attr = array(
-										'class'			=> 'btn btn-warning btn-sm btn_delete_user',
-										'type'          => 'button',
-										'content'		=> '<i class="fa fa-eraser" aria-hidden="true"></i> Cancella',
-										'data-username' => $val->username
-								);
-								echo form_button($attr);
-							?>									
-						</td>
-					</tr>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-			<?php else : ?>
-			Nessuna data disponibile
-			<?php endif ?>		
-		</div>
-	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Nuovo utente</h3>
 		</div>	
 		<div class="panel-body">
 			<?php 
-				$attr=array("class"=>"form-horizontal","id"=>"login_form");
+				$attr=array("class"=>"form-horizontal","id"=>"user_form");
 				echo form_open("#",$attr);
 			?>
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-7">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Username *</label>
 						<div class="col-sm-10">
@@ -158,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-7">
 					<div class="form-group">
 						<div class="col-sm-10 col-sm-offset-2">
 							<?php
@@ -176,7 +119,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<?= form_close() ?>
 		</div>
-	</div>	  
+	</div>	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Elenco utenti</h3>
+		</div>	
+		<div class="panel-body">
+			<?php if ($users) : ?>		
+			<table class="table table-bordered table-condensed tablesorter">
+				<colgroup>
+					<col width="180" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="text-center">USERNAME</th>
+						<th class="text-center">NOME</th>
+						<th class="text-center filter-false">ULTIMO LOGIN</th>						
+						<th class="filter-false sorter-false"></th>
+					</tr>
+				</thead>	
+				<tbody>	
+				<?php foreach ($users as $val) : ?>	
+					<tr>
+						<td class="text-center"><?= $val->username ?></td>
+						<td class="text-center"><?= $val->nome ?></td>
+						<td class="text-center"><?= isset($val->last_login) ? convertDateTime($val->last_login) : "-" ?></td>						
+						<td class="text-center">
+							<a href="<?php echo site_url('admin/users/edit/'.$val->username) ?>">
+							<?php
+								$attr = array(
+										'class'			=> 'btn btn-info btn-sm btn_manage_user',
+										'type'          => 'button',
+										'content'		=> '<i class="fa fa-pencil" aria-hidden="true"></i> Modifica'
+								);
+								echo form_button($attr);
+							?>	
+							</a>					
+							<?php
+								$attr = array(
+										'class'			=> 'btn btn-warning btn-sm btn_delete_user',
+										'type'          => 'button',
+										'content'		=> '<i class="fa fa-eraser" aria-hidden="true"></i> Cancella',
+										'data-username' => $val->username
+								);
+								echo form_button($attr);
+							?>									
+						</td>
+					</tr>
+				<?php endforeach ?>
+				</tbody>
+			</table>
+			<?php else : ?>
+			Nessuna data disponibile
+			<?php endif ?>		
+		</div>
+	</div>  
 </div>
 			  
             

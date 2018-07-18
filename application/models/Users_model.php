@@ -21,6 +21,12 @@
 				return $this->db->affected_rows() > 0;
 			}
 			
+			public function getUser($username) {
+				$query=$this->db->where('username',$username)
+								->get('users');
+				return $query->row();
+			}
+			
 			public function createUser($dati) {
 				$query=$this->db->set($dati)->insert('users');
 				return $query;
@@ -31,6 +37,12 @@
 								->where('username',$username)
 								->update('users');
 				return $query;
+			}
+			
+			public function deleteUser($username) {
+				$query=$this->db->where('username',$username)
+								->delete('users');
+				return $this->db->affected_rows() > 0;
 			}
 			
 			public function listUsers() {

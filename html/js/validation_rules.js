@@ -26,6 +26,23 @@ var validation_user_rules=
 			email: true
 		}
 	};
+
+var validation_userupdate_rules=
+	{
+		password: {
+			minlength: 6
+		},
+		c_password: {
+			minlength: 6,
+			equalTo: "#password"
+		},
+		nome: {
+			required: true
+		},
+		email: {
+			email: true
+		}
+	};
 	
 var validation_user_messages=
 	{
