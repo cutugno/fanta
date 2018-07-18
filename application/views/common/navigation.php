@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="<?= site_url('admin/users') ?>">Gestione utenti</a></li>
-            <li><a href="<?= site_url('admin/matches') ?>">Gestione partite</a></li>
+            <li><a href="<?= site_url('admin/calendar') ?>">Gestione calendario</a></li>
             <li><a href="<?= site_url('admin/results') ?>">Gestione risultati</a></li>
           </ul>
         </li>
