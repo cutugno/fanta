@@ -6,7 +6,7 @@
 			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
 		<?php endif ?>
 		<?php if ($this->session->user_read_404) : ?>
-			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
+			swal({title:"", html:"<?= $this->session->user_read_404 ?>", type: "warning"});
 		<?php endif ?>		
 	});
 	

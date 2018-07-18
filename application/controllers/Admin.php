@@ -82,7 +82,7 @@ class Admin extends CI_Controller {
 			$this->session->set_flashdata('user_read_404',$error);
 			redirect('admin/users');
 		}
-		
+
 		$data['user']=$user;
 		
 		$this->load->view('common/open',$data);
@@ -96,15 +96,19 @@ class Admin extends CI_Controller {
 	
 	public function user_update() {
 		if (!$this->input->post()) {
+			$error="Nessun dato inviato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(400);
-			die("Nessun dato inviato");
+			die($error);
 		}
 				
 		$mandatory=["username","nome"];
 		foreach ($mandatory as $m) {
 			if (!$this->input->post($m)) {
+				$error="Campo $m obbligatorio";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
 				http_response_code(400);
-				die("Campo $m obbligatorio");
+				die($error);
 				break;
 			}
 		} 
@@ -115,34 +119,48 @@ class Admin extends CI_Controller {
 		$username=$post['username'];unset($post['username']);
 		
 		if (!$this->users->getUser($username)) {
+			$error="Utente $username non trovato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(404);
-			echo "Utente $username non trovato";
+			echo $error;
 		}else{
 			if ($this->users->updateUser($post,$username)) {
-				echo "Utente $username aggiornato";
+				$msg="Utente $username aggiornato";
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				echo $msg;
 			}else{
+				$error="Errore db aggiornamento utente $username";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
 				http_response_code(500);
-				die("Errore db aggiornamento utente $username");
+				die($error);
 			}
 		}		
 	}	
 	
 	public function user_delete($username=NULL) {
 		if (NULL==$username) {
+			$error="Nessun utente selezionato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(400);
-			die("Nessun utente selezionato");
+			die($error);
 		}
 		
 		if (!$user=$this->users->getUser($username)) {
+			$error="Utente $username non trovato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(404);
-			die("Utente $username non trovato");
+			die($error);
 		}
 		
 		if ($this->users->deleteUser($username)) {
-			echo "Utente cancellato";
+			$msg="Utente cancellato";
+			audit_log("Message: $msg. (".$this->uri->uri_string().")");
+			echo $msg;
 		}else{
+			$error="Errore db cancellazione utente $username";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(500);
-			echo "Errore db cancellazione utente $username";
+			echo $error;
 		}
 	}
 }
