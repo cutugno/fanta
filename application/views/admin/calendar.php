@@ -70,10 +70,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>	
 </div>
+
+<!-- modale partite giornata -->
+<div class="modal fade" tabindex="-1" role="dialog" id="matches_modal">
+  <div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<?php 
+			$attr = array('id' => 'matches_form');
+			echo form_open('#', $attr);			
+			echo form_hidden('id_giornata');
+		?>
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Gestisci partite <span id="descr_giornata"></span></h4>
+	  </div>
+	  <div class="modal-body">	
+		  <table class="table table-bordered table-condensed tablesorter" id="matches_table">
+				<colgroup>
+					<col width="50" />
+					<col width="650" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="text-center filter-false">#</th>
+						<th class="text-center sorter-false filter-false">PARTITA</th>
+					</tr>
+				</thead>	
+				<tbody>	
+					  <?php for ($x=1;$x<=10;$x++) : ?>	
+					  <tr>
+						<td class="text-right"><?= $x ?></td>
+						<td>
+							<div class="form-group">
+								<?php 
+									$attr = array(
+										'name'			=> 'partita['.$x.']',
+										'class'			=> 'form-control',
+										'placeholder'	=> 'partita '.$x
+									);
+									echo form_input($attr,'','required');		
+								?>			
+							  </div>
+						</td>
+					  </tr>
+					  <?php endfor ?>
+ 				</tbody>
+			</table>
+	  </div>
+	  <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+        <button type="submit" class="btn btn-primary" id="btn_update_income">Salva</button>
+      </div>
+		<?php echo form_close() ?>
+	</div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 		
 <template id="tpl_btn_add_matches">
 	<input type="hidden" name="giornata[%c%][id]" value="%id%">
-	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%"> Aggiungi partite</button>
+	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%" data-descr_giornata="%descr%"> Gestisci partite</button>
 </template>		
 <template id="tpl_btn_delete_calendar">
 	<button type="button" class="btn btn-small btn-danger btn_delete_calendar" data-id="%id%"> Cancella</button>	  

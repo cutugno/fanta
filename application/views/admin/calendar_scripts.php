@@ -24,12 +24,12 @@
 			}else{
 				var giornate="";
 				$.each(calendar,function(k,v) {		
-					var calendar_row=giornata.replace("%descr%",v.descr);					
-					calendar_row=calendar_row.replace("%inizio%",v.inizio);
+					var calendar_row=giornata.replace("%inizio%",v.inizio);
 					calendar_row=calendar_row.replace("%fine%",v.fine);
 					calendar_row=calendar_row.replace("%buttons%",btn_add_matches + btn_delete_calendar);
 					calendar_row=calendar_row.replace(/%id%/g,v.id);
 					calendar_row=calendar_row.replace(/%c%/g,c_giornate);
+					calendar_row=calendar_row.replace(/%descr%/g,v.descr);	
 					$("#calendar_table tbody").append(calendar_row);
 					c_giornate++;
 				});						
@@ -41,7 +41,7 @@
 		var rows=$("#calendar_table tbody tr#nocal").length;
 		if (rows==1) $("#calendar_table tbody").html("");
 		var rows=$("#calendar_table tbody tr").length;		
-		var calendar_row=giornata.replace("%descr%","");
+		var calendar_row=giornata.replace(/%descr%/g,"");
 		calendar_row=calendar_row.replace(/%c%/g,c_giornate);
 		calendar_row=calendar_row.replace("%inizio%","");
 		calendar_row=calendar_row.replace("%fine%","");
@@ -89,30 +89,16 @@
 		});
 	});
 	
-	
-	$("#btn_create").click(function() {
-		/*
-		var dati=$("#calendar_form").serialize();
-		var url="<?= site_url('admin/calendar_update') ?>";
-		$.post(url, dati)
-			.done(function(resp) {
-				console.log(resp);exit();
-				swal({
-				  title: '',
-				  html: 'Calendario salvato',
-				  showConfirmButton:false,
-				  timer: 2000,
-				  type: 'success'
-				});
-				setTimeout(function(){ location.reload() }, 2000);
-			})
-			.fail(function(resp) {
-				swal({title:"", html:"Errore creazione calendario", type: "error"});
-			});
-		*/	
+	$("body").on("click",".btn_add_matches",function() {
+		var id_giornata=$(this).attr("data-id_giornata");
+		var descr_giornata=$(this).attr("data-descr_giornata");
+		$("input[name='id_giornata']").val(id_giornata);
+		$("#descr_giornata").html(descr_giornata);
+		// query matches_read
+		$("#matches_modal").modal();
 	});
 	
-	var user_validation=function(form) {
+	var calendar_validation=function(form) {
 		var dati=$("#calendar_form").serialize();
 		var url="<?= site_url('admin/calendar_update') ?>";
 		$.post(url, dati)
@@ -136,8 +122,34 @@
 		wrapper: "span",
 		rules: validation_calendar_rules,
 		messages: validation_calendar_messages,
-		submitHandler: user_validation
+		submitHandler: calendar_validation
 	});
 
+	var matches_validation=function(form) {
+		var dati=$("#matches_form").serialize();
+		var url="<?= site_url('admin/matches_update') ?>";
+		$.post(url, dati)
+			.done(function(resp) {
+				console.log(resp);	
+				swal({
+				  title: '',
+				  html: resp,
+				  showConfirmButton:false,
+				  timer: 2000,
+				  type: 'success'
+				});
+				//setTimeout(function(){ location.reload() }, 2000);
+			})
+			.fail(function(resp) {
+				swal({title:"", html:resp.responseText, type: "error"});
+			});
+	};
 	
+	$("#matches_form").validate({
+		errorPlacement: validation_error_placement,
+		wrapper: "span",
+		rules: validation_matches_rules,
+		messages: validation_matches_messages,
+		submitHandler: matches_validation
+	});
 </script>

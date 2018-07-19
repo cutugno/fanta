@@ -143,6 +143,20 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	public function matches_update() {
+		if (!$this->input->post()) {
+			$error="Nessun dato inviato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		$id_giornata=$post['id_giornata'];
+		$partite=$post['partita'];
+		// COMPLETARE
+			
+		echo json_encode($this->input->post());
+	}
+	
 	public function user_create() {
 		if (!$this->input->post()) {
 			$error="Nessun dato inviato";
