@@ -67,7 +67,6 @@ class Admin extends CI_Controller {
 		$insert=$update=[];
 		foreach ($post['giornata'] as $giornata) {
 			// se fine < inizio non salvo il record
-			//echo compareDates($giornata['inizio'],"<",$giornata['fine']) ? "ok" : "no date";
 			if (compareDates($giornata['inizio'],"<",$giornata['fine'])) {
 				$giornata['inizio']=revertDateTime($giornata['inizio']);
 				$giornata['fine']=revertDateTime($giornata['fine']);
@@ -78,12 +77,20 @@ class Admin extends CI_Controller {
 				}else{
 					$insert[] = $giornata;
 				}
-			}
+			}else{
+				$error="Date non valide per ".$giornata['descr'];
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(400);
+				die($error);
+				break;
+			}				
 		}
-		$echo="Calendario salvato";
+		
+		$echo="";
 		if (!empty($insert)) {
 			if ($this->giornate->insertGiornate($insert)) {
 				$msg="Giornate inserite";
+				$echo="Calendario salvato";
 				audit_log("Message:$msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento giornate";
@@ -95,6 +102,7 @@ class Admin extends CI_Controller {
 		if (!empty($update)) {
 			if ($this->giornate->updateGiornate($update,"id")) {
 				$msg="Giornate aggiornate";
+				$echo="Calendario salvato";
 				audit_log("Message:$msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento giornate";

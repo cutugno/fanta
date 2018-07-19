@@ -78,7 +78,7 @@
 					setTimeout(function(){ location.reload() }, 2000);
 				})
 				.fail(function(resp) {
-					swal({title:"", html:resp, type: "error"});
+					swal({title:"", html:resp.responseText, type: "error"});
 				});
 			}else{ // riga appena inserita, cancello solo da vista
 				questo.parent().parent("tr").remove();
@@ -127,7 +127,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:resp, type: "error"});
+				swal({title:"", html:resp.responseText, type: "error"});
 			});
 	};
 	

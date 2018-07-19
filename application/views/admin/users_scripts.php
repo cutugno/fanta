@@ -25,7 +25,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:resp, type: "error"});
+				swal({title:"", html:resp.responseText, type: "error"});
 			});
 	};
 	
@@ -61,7 +61,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:"Errore cancellazione utente", type: "error"});
+				swal({title:"", html:resp.responseText, type: "error"});
 			});
 		});
 	});
