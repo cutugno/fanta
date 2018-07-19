@@ -17,7 +17,7 @@
 			.done(function(resp) {
 				swal({
 				  title: '',
-				  html: 'Utente creato',
+				  html: resp,
 				  showConfirmButton:false,
 				  timer: 2000,
 				  type: 'success'
@@ -25,7 +25,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:"Errore creazione utente", type: "error"});
+				swal({title:"", html:resp, type: "error"});
 			});
 	};
 	
@@ -42,7 +42,7 @@
 		var url="<?= site_url('admin/user_delete/') ?>"+username;
 		swal({
 		  title: '',
-		  text: "Vuoi rimuovere questo utente?",
+		  text: "Vuoi cancellare questo utente?",
 		  type: 'info',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',

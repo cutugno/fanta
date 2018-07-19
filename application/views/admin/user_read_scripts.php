@@ -8,7 +8,7 @@
 			.done(function(resp) {
 				swal({
 				  title: '',
-				  html: 'Utente aggiornato',
+				  html: resp,
 				  showConfirmButton:false,
 				  timer: 2000,
 				  type: 'success'
@@ -16,7 +16,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:"Errore aggiornamento utente", type: "error"});
+				swal({title:"", html:resp, type: "error"});
 			});
 	};
 	

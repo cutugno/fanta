@@ -64,11 +64,50 @@ class Admin extends CI_Controller {
 		}
 		
 		$post=$this->input->post();
+		$insert=$update=[];
 		foreach ($post['giornata'] as $giornata) {
-			// se fine < inizio errore
-			// se isset(id) faccio update altrimenti insert
+			// se fine < inizio non salvo il record
+			//echo compareDates($giornata['inizio'],"<",$giornata['fine']) ? "ok" : "no date";
+			if (compareDates($giornata['inizio'],"<",$giornata['fine'])) {
+				$giornata['inizio']=revertDateTime($giornata['inizio']);
+				$giornata['fine']=revertDateTime($giornata['fine']);
+				// se isset(id) faccio update altrimenti insert
+				if (isset($giornata['id'])){
+					$giornata['last_edit']=date("Y-m-d H:i:s");
+					$update[] = $giornata;
+				}else{
+					$insert[] = $giornata;
+				}
+			}
 		}
-		echo json_encode($post['giornata']);
+		$echo="";
+		if (!empty($insert)) {
+			if ($this->giornate->insertGiornate($insert)) {
+				$msg="Giornate inserite";
+				$echo.=$msg;
+				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db inserimento giornate";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}
+		if (!empty($update)) {
+			if ($this->giornate->updateGiornate($update,"id")) {
+				$echo=="" ? $msg="Giornate aggiornate" : $msg.=" e aggiornate";
+				$echo.=$msg;
+				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db aggiornamento giornate";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}
+		if ($echo=="") $echo="Nessuna operazione effettuata";
+		
+		echo $echo;		
 	}
 	
 	public function user_create() {

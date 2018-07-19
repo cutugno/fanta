@@ -13,5 +13,17 @@
 				return $query->result();
 			}
 			
+			public function insertGiornate($dati) {
+				// insert batch
+				$query=$this->db->insert_batch('giornate',$dati);
+				return $query;
+			}
+					
+			public function updateGiornate($dati,$where) {
+				// update batch
+				$query=$this->db->update_batch('giornate',$dati,$where);
+				return $query;
+			}
+			
 	}
 ?>

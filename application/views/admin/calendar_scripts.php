@@ -87,10 +87,9 @@
 		var url="<?= site_url('admin/calendar_update') ?>";
 		$.post(url, dati)
 			.done(function(resp) {
-				console.log(resp);exit();
 				swal({
 				  title: '',
-				  html: 'Calendario salvato',
+				  html: resp,
 				  showConfirmButton:false,
 				  timer: 2000,
 				  type: 'success'
@@ -98,7 +97,7 @@
 				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
-				swal({title:"", html:"Errore creazione calendario", type: "error"});
+				swal({title:"", html:resp, type: "error"});
 			});
 	};
 	
