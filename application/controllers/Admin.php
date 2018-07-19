@@ -80,11 +80,10 @@ class Admin extends CI_Controller {
 				}
 			}
 		}
-		$echo="";
+		$echo="Calendario salvato";
 		if (!empty($insert)) {
 			if ($this->giornate->insertGiornate($insert)) {
 				$msg="Giornate inserite";
-				$echo.=$msg;
 				audit_log("Message:$msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento giornate";
@@ -95,8 +94,7 @@ class Admin extends CI_Controller {
 		}
 		if (!empty($update)) {
 			if ($this->giornate->updateGiornate($update,"id")) {
-				$echo=="" ? $msg="Giornate aggiornate" : $msg.=" e aggiornate";
-				$echo.=$msg;
+				$msg="Giornate aggiornate";
 				audit_log("Message:$msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento giornate";
@@ -108,6 +106,33 @@ class Admin extends CI_Controller {
 		if ($echo=="") $echo="Nessuna operazione effettuata";
 		
 		echo $echo;		
+	}
+	
+	public function calendar_delete($id=NULL) {
+		if (NULL==$id) {
+			$error="Nessuna giornata selezionata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		if (!$giornata=$this->giornate->getGiornata($id)) {
+			$error="Giornata con ID $id non trovata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(404);
+			die($error);
+		}
+		
+		if ($this->giornate->deleteGiornata($id)) {
+			$msg="Giornata cancellata";
+			audit_log("Message: $msg. (".$this->uri->uri_string().")");
+			echo $msg;
+		}else{
+			$error="Errore db cancellazione giornata con ID $id";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(500);
+			echo $error;
+		}
 	}
 	
 	public function user_create() {

@@ -53,10 +53,40 @@
 	
 	// cancella giornata calendario
 	$("body").on("click",".btn_delete_calendar",function(){
-		$(this).parent().parent("tr").remove();
-		var rows=$("#calendar_table tbody tr").length;
-		if (rows==0) $("#calendar_table tbody").html(no_calendar);
-		$(".tofocus:last").focus();
+		var questo=$(this);
+		swal({
+		  title: '',
+		  text: "Vuoi rimuovere questa giornata?",
+		  type: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  confirmButtonText: 'Rimuovi',
+		  cancelButtonText: 'Annulla',
+		}).then(function () {
+			var id=questo.attr("data-id");
+			if (id != "%id%") { // non è una riga appena inserita, cancello anche da db
+				var url="<?= site_url('admin/calendar_delete/') ?>"+id;
+				$.get(url)
+				.done(function(resp) {
+					swal({
+					  title: '',
+					  html: resp,
+					  showConfirmButton:false,
+					  timer: 2000,
+					  type: 'success'
+					});
+					setTimeout(function(){ location.reload() }, 2000);
+				})
+				.fail(function(resp) {
+					swal({title:"", html:resp, type: "error"});
+				});
+			}else{ // riga appena inserita, cancello solo da vista
+				questo.parent().parent("tr").remove();
+				var rows=$("#calendar_table tbody tr").length;
+				if (rows==0) $("#calendar_table tbody").html(no_calendar);
+				$(".tofocus:last").focus();
+			}
+		});
 	});
 	
 	

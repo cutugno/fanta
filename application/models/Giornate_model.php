@@ -13,6 +13,11 @@
 				return $query->result();
 			}
 			
+			public function getGiornata($id) {
+				$query=$this->db->where('id',$id)->get('giornate');
+				return $query->row();
+			}
+			
 			public function insertGiornate($dati) {
 				// insert batch
 				$query=$this->db->insert_batch('giornate',$dati);
@@ -23,6 +28,12 @@
 				// update batch
 				$query=$this->db->update_batch('giornate',$dati,$where);
 				return $query;
+			}
+			
+			public function deleteGiornata($id) {
+				$query=$this->db->where('id',$id)
+								->delete('giornate');
+				return $this->db->affected_rows() > 0;
 			}
 			
 	}

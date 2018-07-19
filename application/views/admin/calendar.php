@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<button class="btn btn-small btn-success" id="btn_addcalendar">Aggiungi giornata</button>
+					<button class="btn btn-small btn-success" id="btn_addcalendar"><i class="fa fa-plus"></i> Aggiungi giornata</button>
 				</div>
 			</div>
 			<?php 
@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%"> Aggiungi partite</button>
 </template>		
 <template id="tpl_btn_delete_calendar">
-	<button type="button" class="btn btn-small btn-danger btn_delete_calendar"> Cancella</button>	  
+	<button type="button" class="btn btn-small btn-danger btn_delete_calendar" data-id="%id%"> Cancella</button>	  
 </template>
 <template id="tpl_giornata">
 <tr>
@@ -90,6 +90,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </template>
 <template id="tpl_no_calendar">
 	<tr id="nocal">
-		<td colspan="4">Nessuna giornata disponibile</td>
+		<td colspan="4">Nessuna giornata inserita</td>
 	</tr>
 </template>            
