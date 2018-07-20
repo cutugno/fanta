@@ -90,11 +90,23 @@
 	});
 	
 	$("body").on("click",".btn_add_matches",function() {
+		resetForm($("#matches_form"));
 		var id_giornata=$(this).attr("data-id_giornata");
 		var descr_giornata=$(this).attr("data-descr_giornata");
 		$("input[name='id_giornata']").val(id_giornata);
 		$("#descr_giornata").html(descr_giornata);
-		// query matches_read
+		var url="<?= site_url('admin/matches_read/') ?>"+id_giornata;
+		$.get(url,function(resp) {
+			var matches=JSON.parse(resp);
+			if (matches.length != 0) {
+				$("#matches_form").attr("data-update",1);
+				$.each(matches,function(k,v) {
+					$("input[name='partita["+k+"][partita]']").val(v.partita);
+					$("input[name='partita["+k+"][id]']").val(v.id);
+					//$("input[name='partita["+k+"]']").attr("data-id_partita",v.id);
+				});
+			}
+		});
 		$("#matches_modal").modal();
 	});
 	
@@ -138,7 +150,7 @@
 				  timer: 2000,
 				  type: 'success'
 				});
-				//setTimeout(function(){ location.reload() }, 2000);
+				setTimeout(function(){ location.reload() }, 2000);
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});

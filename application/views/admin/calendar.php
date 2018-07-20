@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="modal-dialog modal-lg" role="document">
 	<div class="modal-content">
 		<?php 
-			$attr = array('id' => 'matches_form');
+			$attr = array('id' => 'matches_form','data-update' => '');
 			echo form_open('#', $attr);			
 			echo form_hidden('id_giornata');
 		?>
@@ -92,23 +92,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</colgroup>
 				<thead>
 					<tr>
-						<th class="text-center filter-false">#</th>
 						<th class="text-center sorter-false filter-false">PARTITA</th>
 					</tr>
 				</thead>	
 				<tbody>	
-					  <?php for ($x=1;$x<=10;$x++) : ?>	
+					  <?php for ($x=0;$x<10;$x++) : ?>	
+					  <?php $y=$x+1 ?>
 					  <tr>
-						<td class="text-right"><?= $x ?></td>
 						<td>
 							<div class="form-group">
 								<?php 
 									$attr = array(
-										'name'			=> 'partita['.$x.']',
-										'class'			=> 'form-control',
-										'placeholder'	=> 'partita '.$x
+										'name'				=> 'partita['.$x.'][partita]',
+										'class'				=> 'form-control',
+										'placeholder'		=> 'partita '.$y
 									);
 									echo form_input($attr,'','required');		
+									echo form_hidden('partita['.$x.'][id]','');		
 								?>			
 							  </div>
 						</td>
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  </div>
 	  <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-        <button type="submit" class="btn btn-primary" id="btn_update_income">Salva</button>
+        <button type="submit" class="btn btn-primary" id="btn_save_matches">Salva</button>
       </div>
 		<?php echo form_close() ?>
 	</div><!-- /.modal-content -->

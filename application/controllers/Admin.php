@@ -143,18 +143,64 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	public function matches_read($id_giornata=NULL) {
+		if (NULL==$id_giornata) {
+			// bad request
+			$error="Nessuna giornata selezionata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		$matches=$this->giornate->getGiornataPartite($id_giornata);		
+		echo json_encode($matches);
+	}
+	
 	public function matches_update() {
+		// per ora non è possibile effettuare insert o update di una singola partita: solo in batch
 		if (!$this->input->post()) {
 			$error="Nessun dato inviato";
 			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(400);
 			die($error);
 		}
+		$post=$this->input->post();
 		$id_giornata=$post['id_giornata'];
-		$partite=$post['partita'];
-		// COMPLETARE
+		$partite=$post['partita'];		
+		
+		// json nuove partite: {"id_giornata":"2","partita":[{"partita":"d","id":""},{"partita":"f","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""}]}
+		// json partite esistenti: {"id_giornata":"1","partita":[{"partita":"ab","id":"21"},{"partita":"cd","id":"22"},{"partita":"ef","id":"23"},{"partita":"gh","id":"24"},{"partita":"ij","id":"25"},{"partita":"kl","id":"26"},{"partita":"mn","id":"27"},{"partita":"op","id":"28"},{"partita":"qr","id":"29"},{"partita":"st","id":"30"}]}
 			
-		echo json_encode($this->input->post());
+		if ($partite[0]['id'] != "") {
+			// batch update
+			if ($this->giornate->updatePartite($partite,"id")) {
+				$msg="Partite aggiornate";
+				$echo="Partite aggiornate. Calendario salvato";
+				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db aggiornamento partite";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}else{
+			// batch insert
+			foreach ($partite as &$elem) {
+				unset($elem['id']); // tolgo parametro id
+				$elem['id_giornata']=$id_giornata; // aggiungo parametro id giornata
+			}
+			if ($this->giornate->insertPartite($partite)) {
+				$msg="Partite inserite";
+				$echo="Partite inserite. Calendario salvato";
+				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db inserimento partite";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}
+		echo $echo;
 	}
 	
 	public function user_create() {
