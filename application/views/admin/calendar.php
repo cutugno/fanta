@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">

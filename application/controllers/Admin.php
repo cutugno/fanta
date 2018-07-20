@@ -48,10 +48,9 @@ class Admin extends CI_Controller {
 	public function results() {
 		/* GESTIONE RISULTATI */
 		
-		// query giornate e partite da visualizzare in pannelli collassabili
-		// per le giornate senza partite il pannello è disabilitato (chiuso) class panel-default
-		// per le giornate finite il pannello è abilitato ma il form risultati è disabilitato class panel-warning
-		// per le altre giornate class panel-success
+		// per le giornate senza partite il pannello è disabilitato (chiuso) 
+		// per le giornate finite il pannello è abilitato ma il form risultati è disabilitato
+
 		if ($giornate=$this->giornate->listGiornate()) {
 			foreach ($giornate as &$giornata) {
 				$giornata->partite=$this->giornate->getGiornataPartite($giornata->id);

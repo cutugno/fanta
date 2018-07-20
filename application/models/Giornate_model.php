@@ -7,9 +7,13 @@
 					$this->load->database();
 			}
 			
-			public function listGiornate() {
+			public function listGiornate($withmatches=false) {
+				$matches_query=$this->db->select('count(*)')
+										->where('id_giornata','g.id',false)
+										->get_compiled_select('partite');
+				if ($withmatches) $query=$this->db->where('('.$matches_query.') >',0); // filtro per giornate con partite
 				$query=$this->db->order_by('id')
-								->get('giornate');
+								->get('giornate g'); 
 				return $query->result();
 			}
 			

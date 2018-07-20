@@ -134,5 +134,6 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
 						'users_model' => 'users',
-						'giornate_model' => 'giornate'
+						'giornate_model' => 'giornate',
+						'pronostici_model' => 'pronostici'
 					 );
