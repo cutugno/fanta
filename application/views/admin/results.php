@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="panel-heading" role="tab" id="heading<?= $key ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
 					  <div class="pull-right"><small><?= $giornata->msg ?></small></div>
 					  <h4 class="panel-title">
-						  Risultati <?= $giornata->descr ?> <?= !isset($giornata->partite[0]->risultato) && $giornata->editable=="" ? '<i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i risultati !" aria-hidden="true"></i>' : "" ?> 
+						  Risultati <?= $giornata->descr ?> <?php if (isset($giornata->warning)) : ?> <i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i risultati !" aria-hidden="true"></i> <?php endif ?>
 					  </h4>					  
 					</div>
 					<?php if ($giornata->collapsable) :?>

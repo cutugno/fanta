@@ -64,9 +64,9 @@ class Admin extends CI_Controller {
 						$giornata->msg="Giornata terminata il ".$fine; // messaggio heading a destra
 					}else{
 						$giornata->panel_class="panel-success";
-						$giornata->editable="";
+						$giornata->editable=""; // true
 						$giornata->msg="Giornata futura (inizia il ".convertDateTime($giornata->inizio,true).")";
-						$giornata->warning=NULL==$giornata->partite[0]->risultato ? 1 : 0; // icona warning per giornata futura senza risultati
+						if (!isset($giornata->partite[0]->risultato)) $giornata->warning=true; // icona warning per giornata futura senza risultati
 					}
 					$giornata->collapsable=true; // abilita il collapse del panel					
 				}else{
