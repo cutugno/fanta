@@ -34,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<col width="180" />
 							<col width="150" />
 							<col width="150" />
+							<col width="80" />
 							<col width="150" />
 						</colgroup>
 						<thead>
@@ -41,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th class="text-center filter-false">DESCRIZIONE</th>
 								<th class="text-center sorter-false filter-false">INIZIO</th>
 								<th class="text-center sorter-false filter-false">FINE</th>						
+								<th class="text-center sorter-false filter-false">PARTITE</th>						
 								<th class="filter-false sorter-false"></th>
 							</tr>
 						</thead>	
@@ -104,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php 
 									$attr = array(
 										'name'				=> 'partita['.$x.'][partita]',
-										'class'				=> 'form-control',
+										'class'				=> 'form-control partita_input',
 										'placeholder'		=> 'partita '.$y
 									);
 									echo form_input($attr,'','required');		
@@ -139,6 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<td><input type="text" class="form-control tofocus" name="giornata[%c%][descr]" value="%descr%" required></td>
 	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[%c%][inizio]" value="%inizio%" required regex="^(3[01]|[12][0-9]|0?[1-9])\/(1[012]|0?[1-9])\/((?:19|20)\d{2})\s(2[0-3]|[01][0-9])\:([0-5][0-9])$"></td>
 	<td><input type="text" class="form-control dyn_datetimepicker" name="giornata[%c%][fine]" value="%fine%" required regex="^(3[01]|[12][0-9]|0?[1-9])\/(1[012]|0?[1-9])\/((?:19|20)\d{2})\s(2[0-3]|[01][0-9])\:([0-5][0-9])$"></td>
+	<td class="text-center" style="vertical-align:middle"><i class="fa fa-circle %matches_class% fa-2x"></i></td>
 	<td class="text-center">
 		%buttons%		
 	</td>

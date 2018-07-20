@@ -7,6 +7,10 @@
 	var btn_delete_calendar=$("#tpl_btn_delete_calendar").html();
 	var c_giornate=0;
 	
+	$(".partita_input").change(function() {
+		$(this).parent("div").addClass("has-error");
+	});
+	
 	$(function() {
 		<?php if ($this->session->user_read_400) : ?>
 			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
@@ -23,13 +27,16 @@
 				$("#calendar_table tbody").html(no_calendar);
 			}else{
 				var giornate="";
-				$.each(calendar,function(k,v) {		
+				$.each(calendar,function(k,v) {
+					console.log(v);		
 					var calendar_row=giornata.replace("%inizio%",v.inizio);
 					calendar_row=calendar_row.replace("%fine%",v.fine);
 					calendar_row=calendar_row.replace("%buttons%",btn_add_matches + btn_delete_calendar);
 					calendar_row=calendar_row.replace(/%id%/g,v.id);
 					calendar_row=calendar_row.replace(/%c%/g,c_giornate);
 					calendar_row=calendar_row.replace(/%descr%/g,v.descr);	
+					var matches_class=(v.matches.length==0) ? "text-danger" : "text-success";
+					calendar_row=calendar_row.replace("%matches_class%",matches_class);
 					$("#calendar_table tbody").append(calendar_row);
 					c_giornate++;
 				});						

@@ -45,11 +45,58 @@ class Admin extends CI_Controller {
 	
 	}
 	
+	public function results() {
+		/* GESTIONE RISULTATI */
+		
+		// query giornate e partite da visualizzare in pannelli collassabili
+		// per le giornate senza partite il pannello è disabilitato (chiuso) class panel-default
+		// per le giornate finite il pannello è abilitato ma il form risultati è disabilitato class panel-warning
+		// per le altre giornate class panel-success
+		if ($giornate=$this->giornate->listGiornate()) {
+			foreach ($giornate as &$giornata) {
+				$giornata->partite=$this->giornate->getGiornataPartite($giornata->id);
+				if (!empty($giornata->partite)){					
+					$now=date("d/m/Y H:i");
+					$fine=convertDateTime($giornata->fine,true);
+					if (compareDates($fine,">",$now)) {
+						$giornata->panel_class="panel-warning"; // sfondo panel heading
+						$giornata->editable=" disabled"; // input risultati 
+						$giornata->msg="Giornata terminata il ".$fine; // messaggio heading a destra
+					}else{
+						$giornata->panel_class="panel-success";
+						$giornata->editable="";
+						$giornata->msg="Giornata futura (inizia il ".convertDateTime($giornata->inizio,true).")";
+						$giornata->warning=NULL==$giornata->partite[0]->risultato ? 1 : 0; // icona warning per giornata futura senza risultati
+					}
+					$giornata->collapsable=true; // abilita il collapse del panel					
+				}else{
+					$giornata->panel_class="panel-default";
+					$giornata->collapsable=false;
+					$giornata->editable=" disabled";
+					$giornata->msg="Giornata senza partite (inizia il ".convertDateTime($giornata->inizio,true).")";
+				}
+			}
+		}else{
+			$giornate=[];
+		}
+		
+		$data['giornate']=$giornate;
+		
+		$this->load->view('common/open',$data);
+		$this->load->view('common/navigation');
+		$this->load->view('admin/results');
+		$this->load->view('common/scripts');
+		$this->load->view('admin/results_scripts');
+		$this->load->view('common/close');		
+	
+	}
+	
 	public function calendar_read() {
 		if ($calendar=$this->giornate->listGiornate()) {
 			foreach ($calendar as &$giornata) {
 				$giornata->inizio=convertDateTime($giornata->inizio,1);
 				$giornata->fine=convertDateTime($giornata->fine,1);
+				$giornata->matches=$this->giornate->getGiornataPartite($giornata->id);
 			}		
 		}
 		echo json_encode($calendar);
@@ -91,7 +138,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->insertGiornate($insert)) {
 				$msg="Giornate inserite";
 				$echo="Calendario salvato";
-				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento giornate";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -103,7 +150,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->updateGiornate($update,"id")) {
 				$msg="Giornate aggiornate";
 				$echo="Calendario salvato";
-				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento giornate";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -176,7 +223,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->updatePartite($partite,"id")) {
 				$msg="Partite aggiornate";
 				$echo="Partite aggiornate. Calendario salvato";
-				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento partite";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -192,7 +239,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->insertPartite($partite)) {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
-				audit_log("Message:$msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento partite";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -331,5 +378,32 @@ class Admin extends CI_Controller {
 			echo $error;
 		}
 	}
+	
+	public function results_update() {
+		if (!$this->input->post()) {
+			$error="Nessun dato inviato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+			
+		$risultati=$this->input->post('risultato');
+		$results=[];
+		foreach ($risultati as $key=>$val) {
+			$results[]=array("id"=>$key,"risultato"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
+		}
+		
+		if ($this->giornate->updatePartite($results,"id")) {
+			$msg="Risultati aggiornati";
+			audit_log("Message: $msg. (".$this->uri->uri_string().")");
+		}else{
+			$error="Errore db aggiornamento risultati";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(500);
+			die($error);
+		}
+		
+		echo $msg;
+	}	
 }
 

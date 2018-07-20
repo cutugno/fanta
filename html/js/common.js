@@ -3,6 +3,8 @@
 		$form.find('input:radio, input:checkbox')
 			 .removeAttr('checked').removeAttr('selected');
 	}
+	
+	
 
 	$(function(){
 		

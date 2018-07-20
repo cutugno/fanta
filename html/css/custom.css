@@ -7,3 +7,11 @@ color: #000;
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 color: #000;
 }
+
+#accordion .panel-heading {
+cursor:pointer;
+}
+
+#matches_table input {
+text-align:center;
+}

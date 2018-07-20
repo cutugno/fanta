@@ -93,7 +93,9 @@ var validation_user_messages=
 	
 var validation_calendar_rules={};
 var validation_matches_rules={};
+var validation_results_rules={};
 var validation_calendar_messages={};
 var validation_matches_messages={};
+var validation_results_messages={};
 
 	
