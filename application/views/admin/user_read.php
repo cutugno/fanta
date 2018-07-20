@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"><?= $user->username ?></h3>
+			<h3 class="panel-title">Modifica utente <strong><?= $user->username ?></strong></h3>
 		</div>	
 		<div class="panel-body">
 			<?php 
@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-7">
 					<div class="form-group">
 						<div class="col-sm-10 col-sm-offset-2">
 							<?php

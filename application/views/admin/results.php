@@ -15,8 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>	
 	<div class="row">
 		<div class="col-sm-6">
-			<button type="button" class="btn btn-xs btn-info" id="espandi"><i class="fa fa-expand" aria-hidden="true"></i> Espandi tutto</button>
-			<button type="button" class="btn btn-xs btn-info" id="contrai"><i class="fa fa-compress" aria-hidden="true"></i>Contrai tutto</button>
+			<button type="button" class="btn btn-xs btn-info espandi"><i class="fa fa-expand" aria-hidden="true"></i> Espandi tutto</button>
+			<button type="button" class="btn btn-xs btn-info contrai"><i class="fa fa-compress" aria-hidden="true"></i> Contrai tutto</button>
 		</div>
 		<div class="col-sm-6 text-right">
 			<small>
@@ -98,5 +98,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			Nessuna giornata inserita
 			<?php endif ?>						
 		</div> <!-- /col-xs-12 -->
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<button type="button" class="btn btn-xs btn-info espandi"><i class="fa fa-expand" aria-hidden="true"></i> Espandi tutto</button>
+			<button type="button" class="btn btn-xs btn-info contrai"><i class="fa fa-compress" aria-hidden="true"></i> Contrai tutto</button>
+		</div>
 	</div>
 </div>

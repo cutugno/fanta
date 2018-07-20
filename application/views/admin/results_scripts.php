@@ -1,10 +1,10 @@
 <script src="<?= site_url('js/validation_rules.js') ?>"></script>
 <script type="text/javascript">
 	
-	$('#espandi').on('click', function () {
+	$('.espandi').on('click', function () {
 		$('#accordion .panel-collapse').collapse('show');
 	});
-	$('#contrai').on('click', function () {
+	$('.contrai').on('click', function () {
 		$('#accordion .panel-collapse').collapse('hide');
 	});
 	
@@ -19,7 +19,7 @@
 		<?php if ($this->session->user_read_404) : ?>
 			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
 		<?php endif ?>
-		$("#contrai").click();
+		$(".contrai").click();
 	});
 		
 	var results_validation=function(form) {

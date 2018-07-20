@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>	
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-xs-12 text-right">
+				<div class="col-xs-12">
 					<button class="btn btn-small btn-success" id="btn_addcalendar"><i class="fa fa-plus"></i> Aggiungi giornata</button>
 				</div>
 			</div>
@@ -131,10 +131,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 <template id="tpl_btn_add_matches">
 	<input type="hidden" name="giornata[%c%][id]" value="%id%">
-	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%" data-descr_giornata="%descr%"> Gestisci partite</button>
+	<button type="button" class="btn btn-small btn-info btn_add_matches" data-id_giornata="%id%" data-descr_giornata="%descr%"><i class="fa fa-list-alt" aria-hidden="true"></i> Gestisci partite</button>
 </template>		
 <template id="tpl_btn_delete_calendar">
-	<button type="button" class="btn btn-small btn-danger btn_delete_calendar" data-id="%id%"> Cancella</button>	  
+	<button type="button" class="btn btn-small btn-danger btn_delete_calendar" data-id="%id%"><i class="fa fa-eraser" aria-hidden="true"></i> Cancella</button>	  
 </template>
 <template id="tpl_giornata">
 <tr>
