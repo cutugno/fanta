@@ -8,12 +8,12 @@
 			.done(function(resp) {
 				swal({
 				  title: '',
-				  html: resp,
+				  html: "Utente aggiornato",
 				  showConfirmButton:false,
 				  timer: 2000,
 				  type: 'success'
 				});
-				setTimeout(function(){ location.reload() }, 2000);
+				setTimeout(function(){ window.location.href="<?= site_url('admin/users/') ?>"+resp }, 2000);
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});

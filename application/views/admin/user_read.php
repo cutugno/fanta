@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">
@@ -22,36 +21,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<?php 
 				$attr=array("class"=>"form-horizontal","id"=>"user_form");
 				echo form_open("#",$attr);
-				echo form_hidden("username",$user->username);
+				echo form_hidden("old_username",$user->username);
 			?>
 			<div class="row">
 				<div class="col-xs-12 col-sm-7">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Password</label>
+						<label class="col-sm-2 control-label">Username *</label>
 						<div class="col-sm-10">
 							<?php 
 								$attr = array(
-									'name'          => 'password',		
-									'id'			=> 'password',				
+									'name'          => 'username',		
+									'id'			=> 'username',				
 									'class'			=> 'form-control',
-									'placeholder'	=> 'Inserisci password (min 6 caratteri)'
+									'placeholder'	=> 'Inserisci username',
+									'value'			=> $user->username
 								);
-								echo form_password($attr);					
+								echo form_input($attr);					
 							?>	            
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Conferma</label>
-						<div class="col-sm-10">
-							<?php 
-								$attr = array(
-									'name'          => 'c_password',						
-									'id'            => 'c_password',						
-									'class'			=> 'form-control',
-									'placeholder'	=> 'Conferma password'
-								);
-								echo form_password($attr);					
-							?>	             
 						</div>
 					</div>
 					<div class="form-group">
@@ -84,7 +70,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								echo form_input($attr);					
 							?>	  
 						</div>
-					</div>							
+					</div>				
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'password',		
+									'id'			=> 'password',				
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Inserisci password (min 6 caratteri)'
+								);
+								echo form_password($attr);					
+							?>	            
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Conferma</label>
+						<div class="col-sm-10">
+							<?php 
+								$attr = array(
+									'name'          => 'c_password',						
+									'id'            => 'c_password',						
+									'class'			=> 'form-control',
+									'placeholder'	=> 'Conferma password'
+								);
+								echo form_password($attr);					
+							?>	             
+						</div>
+					</div>								
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<!-- avatar -->

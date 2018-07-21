@@ -58,6 +58,9 @@ var validation_user_rules=
 
 var validation_userupdate_rules=
 	{
+		username: {
+			required: true
+		},
 		password: {
 			minlength: 6
 		},

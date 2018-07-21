@@ -148,9 +148,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php if ($users) : ?>		
 					<table class="table table-bordered table-condensed tablesorter">
 						<colgroup>
-							<col width="180" />
+							<col width="120" />
 							<col width="150" />
-							<col width="150" />
+							<col width="130" />
 							<col width="150" />
 						</colgroup>
 						<thead>
@@ -168,10 +168,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-center"><?= $val->nome ?></td>
 								<td class="text-center"><?= isset($val->last_login) ? convertDateTime($val->last_login) : "-" ?></td>						
 								<td class="text-center">
-									<a href="<?php echo site_url('admin/users/edit/'.$val->username) ?>">
+									<a href="<?php echo site_url('admin/users/'.$val->username) ?>">
 									<?php
 										$attr = array(
-												'class'			=> 'btn btn-info btn-sm btn_manage_user',
+												'class'			=> 'btn btn-info btn-xs btn_manage_user',
 												'type'          => 'button',
 												'content'		=> '<i class="fa fa-pencil" aria-hidden="true"></i> Modifica'
 										);
@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</a>					
 									<?php
 										$attr = array(
-												'class'			=> 'btn btn-warning btn-sm btn_delete_user',
+												'class'			=> 'btn btn-warning btn-xs edit btn_delete_user',
 												'type'          => 'button',
 												'content'		=> '<i class="fa fa-eraser" aria-hidden="true"></i> Cancella',
 												'data-username' => $val->username

@@ -330,20 +330,20 @@ class Admin extends CI_Controller {
 		$post=$this->input->post();
 		if (isset($post['password'])) $post['password']=sha1($post['password']);
 		if (isset($post['c_password'])) unset($post['c_password']);
-		$username=$post['username'];unset($post['username']);
+		$old_username=$post['old_username'];unset($post['old_username']);
 		
-		if (!$this->users->getUser($username)) {
-			$error="Utente $username non trovato";
+		if (!$this->users->getUser($old_username)) {
+			$error="Impossibile modificare $old_username. Utente non trovato";
 			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			http_response_code(404);
 			echo $error;
 		}else{
-			if ($this->users->updateUser($post,$username)) {
-				$msg="Utente $username aggiornato";
+			if ($this->users->updateUser($post,$old_username)) {
+				$msg="Utente $old_username aggiornato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
-				echo $msg;
+				echo $post['username'];
 			}else{
-				$error="Errore db aggiornamento utente $username";
+				$error="Errore db aggiornamento utente $old_username";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
 				http_response_code(500);
 				die($error);
