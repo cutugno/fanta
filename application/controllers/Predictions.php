@@ -22,7 +22,7 @@ class Predictions extends CI_Controller {
 
 		if ($giornate=$this->giornate->listGiornate(true)) {
 			foreach ($giornate as &$giornata) {
-				$giornata->pronostici=$this->giornate->getUserGiornataPronostici($this->session->user->id,$giornata->id);			
+				echo $giornata->pronostici=$this->pronostici->getUserGiornataPronostici($this->session->user->id,$giornata->id);			
 				$now=date("d/m/Y H:i");
 				$fine=convertDateTime($giornata->fine,true);
 				if (compareDates($fine,">",$now)) {
