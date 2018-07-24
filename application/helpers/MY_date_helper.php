@@ -178,11 +178,11 @@
 				audit_log("operator not permitted");
 				return false;			
 			}
-			if (!$start = DateTime::createFromFormat("d/m/Y H:i", $start)) {
+			if (!$start = DateTime::createFromFormat("d/m/Y H:i:s", $start)) {
 				audit_log("start is not a valid date");
 				return false;
 			}
-			if (!$end = DateTime::createFromFormat("d/m/Y H:i", $end)) {
+			if (!$end = DateTime::createFromFormat("d/m/Y H:i:s", $end)) {
 				audit_log("end is not a valid date");
 				return false;
 			}

@@ -19,7 +19,7 @@
 		<?php if ($this->session->user_read_404) : ?>
 			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
 		<?php endif ?>
-		$(".contrai").click();
+		$(".espandi").click();
 	});
 		
 	var results_validation=function(form) {

@@ -55,12 +55,18 @@ class Admin extends CI_Controller {
 			foreach ($giornate as &$giornata) {
 				$giornata->partite=$this->giornate->getGiornataPartite($giornata->id);
 				if (!empty($giornata->partite)){					
-					$now=date("d/m/Y H:i");
-					$fine=convertDateTime($giornata->fine,true);
+					$now=date("d/m/Y H:i:s");
+					$fine=convertDateTime($giornata->fine);
+					$inizio=convertDateTime($giornata->inizio);
 					if (compareDates($fine,">",$now)) {
-						$giornata->panel_class="panel-warning"; // sfondo panel heading
+						$giornata->panel_class="panel-danger"; // sfondo panel heading
 						$giornata->editable=" disabled"; // input risultati 
 						$giornata->msg="Giornata terminata il ".$fine; // messaggio heading a destra
+						$giornata->terminata=true;
+					}else if (compareDates($inizio,"<",$now)) {
+						$giornata->panel_class="panel-warning";
+						$giornata->editable=" disabled"; // true
+						$giornata->msg="Giornata in corso (finisce il ".convertDateTime($giornata->fine,true).")";
 					}else{
 						$giornata->panel_class="panel-success";
 						$giornata->editable=""; // true
@@ -113,7 +119,9 @@ class Admin extends CI_Controller {
 		$insert=$update=[];
 		foreach ($post['giornata'] as $giornata) {
 			// se fine < inizio non salvo il record
-			if (compareDates($giornata['inizio'],"<",$giornata['fine'])) {
+			audit_log($giornata['inizio']);
+			audit_log($giornata['fine']);
+			if (compareDates($giornata['inizio'].":00","<",$giornata['fine'].":00")) {
 				$giornata['inizio']=revertDateTime($giornata['inizio']);
 				$giornata['fine']=revertDateTime($giornata['fine']);
 				// se isset(id) faccio update altrimenti insert

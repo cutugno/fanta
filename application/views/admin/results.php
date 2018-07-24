@@ -34,65 +34,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-xs-12" style="margin-top:10px">
 			<?php if (!empty($giornate)) : ?>
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-				<?php foreach ($giornate as $key=>$giornata) : ?>
-				<div class="panel <?= $giornata->panel_class ?>">
-					<div class="panel-heading" role="tab" id="heading<?= $key ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
-					  <div class="pull-right"><small><?= $giornata->msg ?></small></div>
-					  <h4 class="panel-title">
-						  Risultati <?= $giornata->descr ?> <?php if (isset($giornata->warning)) : ?> <i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i risultati !" aria-hidden="true"></i> <?php endif ?>
-					  </h4>					  
+				<div class="row">
+					<?php foreach ($giornate as $key=>$giornata) : ?>
+					<div class="col-sm-6" style="margin-bottom:15px">
+						<div class="panel <?= $giornata->panel_class ?>">
+							<div class="panel-heading" role="tab" id="heading<?= $key ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
+							  <div class="pull-right"><small><?= $giornata->msg ?></small></div>
+							  <h4 class="panel-title">
+								  Risultati <?= $giornata->descr ?> <?php if (isset($giornata->warning)) : ?> <i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i risultati !" aria-hidden="true"></i> <?php endif ?>
+							  </h4>					  
+							</div>
+							<?php if ($giornata->collapsable) :?>
+							<div id="collapse<?= $key ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?= $key ?>">
+							  <div class="panel-body">
+								  <?php 
+									$attr = array('id' => 'results_form['.$key.']','class' => 'results_form');
+									echo form_open('#', $attr);			
+								  ?>
+								  <table class="table table-bordered table-condensed tablesorter" id="matches_table">
+									<colgroup>
+										<col width="650" />
+										<col width="30" />
+									</colgroup>
+									<thead>
+										<tr>
+											<th class="text-center sorter-false filter-false">PARTITA</th>
+											<th class="text-center sorter-false filter-false">RISULTATO</th>
+										</tr>
+									</thead>	
+									<tbody>	
+										  <?php foreach ($giornata->partite as $partita) : ?>	
+										  <tr>
+											<td><?= $partita->partita ?></td>
+											<td>
+												<?php 
+													$attr = array(
+														'name'				=> 'risultato['.$partita->id.']',
+														'class'				=> 'form-control input_result',
+														'value'				=> $partita->risultato
+													);
+													echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
+												?>		
+											</td>
+										  </tr>
+										  <?php endforeach ?>
+									</tbody>
+								</table>
+								<?php
+									$attr = array(
+											'id'            => 'btn_create',
+											'class'			=> 'btn btn-primary',
+											'type'          => 'submit',
+											'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva risultati'
+									);
+									if ($giornata->editable !=" disabled") echo form_button($attr);
+									
+									if (isset($giornata->terminata)) {
+										if ($giornata->archived==0) {
+										$attr = array(
+											'id'            => 'btn_calculate',
+											'class'			=> 'btn btn-primary',
+											'type'          => 'button',
+											'content'		=> '<i class="fa fa-bolt" aria-hidden="true"></i> Calcola punteggi'
+										);
+										echo form_button($attr);
+										}else{
+											echo '<a href="#" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i> Guarda punteggi</a>';
+										}
+									}
+									echo form_close();
+								?>
+							  </div>
+							</div>
+							<?php endif ?>
+						</div>
 					</div>
-					<?php if ($giornata->collapsable) :?>
-					<div id="collapse<?= $key ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?= $key ?>">
-					  <div class="panel-body">
-						  <?php 
-							$attr = array('id' => 'results_form['.$key.']','class' => 'results_form');
-							echo form_open('#', $attr);			
-						  ?>
-						  <table class="table table-bordered table-condensed tablesorter" id="matches_table">
-							<colgroup>
-								<col width="650" />
-								<col width="30" />
-							</colgroup>
-							<thead>
-								<tr>
-									<th class="text-center sorter-false filter-false">PARTITA</th>
-									<th class="text-center sorter-false filter-false">RISULTATO</th>
-								</tr>
-							</thead>	
-							<tbody>	
-								  <?php foreach ($giornata->partite as $partita) : ?>	
-								  <tr>
-									<td><?= $partita->partita ?></td>
-									<td>
-										<?php 
-											$attr = array(
-												'name'				=> 'risultato['.$partita->id.']',
-												'class'				=> 'form-control input_result',
-												'value'				=> $partita->risultato
-											);
-											echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
-										?>		
-									</td>
-								  </tr>
-								  <?php endforeach ?>
-							</tbody>
-						</table>
-						<?php
-							$attr = array(
-									'id'            => 'btn_create',
-									'class'			=> 'btn btn-primary',
-									'type'          => 'submit',
-									'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva risultati'
-							);
-							if ($giornata->editable !=" disabled") echo form_button($attr);
-							echo form_close();
-						?>
-					  </div>
-					</div>
-					<?php endif ?>
+					<?php endforeach ?>
 				</div>
-				<?php endforeach ?>
 			</div>
 			<?php else : ?>
 			Nessuna giornata inserita

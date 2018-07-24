@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			?>
 			<div class="row">
 				<div class="col-xs-12">
-					<table class="table table-bordered table-condensed tablesorter" id="calendar_table">
+					<table class="table table-bordered table-condensed table-striped tablesorter" id="calendar_table">
 						<colgroup>
 							<col width="180" />
 							<col width="150" />
@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h4 class="modal-title">Gestisci partite <span id="descr_giornata"></span></h4>
 	  </div>
 	  <div class="modal-body">	
-		  <table class="table table-bordered table-condensed tablesorter" id="matches_table">
+		  <table class="table table-bordered table-condensed table-striped" id="matches_table">
 				<colgroup>
 					<col width="50" />
 					<col width="650" />
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										'class'				=> 'form-control partita_input',
 										'placeholder'		=> 'partita '.$y
 									);
-									echo form_input($attr,'','required');		
+									echo form_input($attr,'','required regex="^(\w+|\s)+\-(\s|\w+)+$"');		
 									echo form_hidden('partita['.$x.'][id]','');		
 								?>			
 							  </div>
