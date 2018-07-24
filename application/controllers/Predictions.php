@@ -41,7 +41,6 @@ class Predictions extends CI_Controller {
 						$giornata->panel_class="panel-success";
 						$giornata->editable=""; // true
 						$giornata->msg="Giornata futura (inizia il ".convertDateTime($giornata->inizio,true).")";
-						if (!isset($giornata->partite[0]->risultato)) $giornata->warning=true; // icona warning per giornata futura senza risultati
 					}
 					$giornata->collapsable=true; // abilita il collapse del panel					
 				}else{
