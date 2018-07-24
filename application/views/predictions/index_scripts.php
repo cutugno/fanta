@@ -22,9 +22,9 @@
 		$(".contrai").click();
 	});
 		
-	var results_validation=function(form) {
+	var predictions_validation=function(form) {
 		var dati=$(form).serialize();
-		var url="<?= site_url('admin/results_update') ?>";
+		var url="<?= site_url('predictions/update') ?>";
 		$.post(url, dati)
 			.done(function(resp) {
 				console.log(resp);	
@@ -36,20 +36,20 @@
 				  type: 'success'
 				});
 				$("#matches_table td").removeClass("has-error");
-				setTimeout(function(){ location.reload() }, 2000);				
+				//setTimeout(function(){ location.reload() }, 2000);				
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});
 			});
 	};
 	
-	$(".results_form").each(function(){
+	$(".predictions_form").each(function(){
 		$(this).validate({
 			errorPlacement: validation_error_placement,
 			wrapper: "span",
-			rules: validation_results_rules,
-			messages: validation_results_messages,
-			submitHandler: results_validation
+			rules: validation_predictions_rules,
+			messages: validation_predictions_messages,
+			submitHandler: predictions_validation
 		});
 	});
 </script>

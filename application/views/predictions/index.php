@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div id="collapse<?= $key ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?= $key ?>">
 					  <div class="panel-body">
 						  <?php 
-							$attr = array('id' => 'results_form['.$key.']','class' => 'results_form');
+							$attr = array('id' => 'predctions_form['.$key.']','class' => 'predictions_form');
 							echo form_open('#', $attr);			
 						  ?>
 						  <table class="table table-bordered table-condensed tablesorter" id="matches_table">
@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<thead>
 								<tr>
 									<th class="text-center sorter-false filter-false">PARTITA</th>
-									<th class="text-center sorter-false filter-false">RISULTATO</th>
+									<th class="text-center sorter-false filter-false">PRONOSTICO</th>
 								</tr>
 							</thead>	
 							<tbody>	
@@ -69,11 +69,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td>
 										<?php 
 											$attr = array(
-												'name'				=> 'risultato['.$partita->id.']',
+												'name'				=> 'pronostico['.$partita->id.']',
 												'class'				=> 'form-control input_result',
-												'value'				=> $partita->risultato
+												'value'				=> $partita->pronostico !="" ? $partita->pronostico : "0-0"
 											);
 											echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
+											echo form_hidden('id_pronostico['.$partita->id.']',$partita->id_pronostico);		
 										?>		
 									</td>
 								  </tr>
@@ -85,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									'id'            => 'btn_create',
 									'class'			=> 'btn btn-primary',
 									'type'          => 'submit',
-									'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva risultati'
+									'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva pronostici'
 							);
 							if ($giornata->editable !=" disabled") echo form_button($attr);
 							echo form_close();
