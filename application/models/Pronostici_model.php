@@ -18,5 +18,17 @@
 				return $query->result();
 				
 			}
+			
+			public function insertPronostici($dati) {
+				// insert batch
+				$query=$this->db->insert_batch('pronostici',$dati);
+				return $query;
+			}
+					
+			public function updatePronostici($dati,$where) {
+				// update batch
+				$query=$this->db->update_batch('pronostici',$dati,$where);
+				return $query;
+			}
 	}
 ?>

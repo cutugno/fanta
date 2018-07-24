@@ -45,7 +45,8 @@ class Predictions extends CI_Controller {
 					$giornata->editable=" disabled";
 					$giornata->msg="Giornata senza partite (inizia il ".convertDateTime($giornata->inizio,true).")";
 				}	
-				$pronostici=$this->pronostici->getUserPartitaPronostici($this->session->user->username,$giornata->id);	
+				$pronostici=$this->pronostici->getUserPartitaPronostici($this->session->user->username,$giornata->id);
+				if (empty($pronostici)) $giornata->warning=true;	
 				$pronos=[];
 				foreach ($pronostici as $val) {
 					$p=new stdClass();
@@ -82,7 +83,6 @@ class Predictions extends CI_Controller {
 			die($error);
 		}
 		
-		echo json_encode($this->input->post());exit();
 		/* 
 		 * {
 		 * 	"pronostico":{
@@ -96,23 +96,45 @@ class Predictions extends CI_Controller {
 			
 		$pronostici=$this->input->post('pronostico');
 		$id_pronostici=$this->input->post('id_pronostico');
-		$predictions=[];
+		$insert=$update=[];
+		
 		foreach ($pronostici as $key=>$val) {
 			// se id_pronostico[$key] != "" è un update, altrimenti è insert
-			$predictions[]=array("id_partita"=>$key,"pronostico"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
+			if ($id_pronostici[$key] == "") {
+				$insert[]=array("id_user"=>$this->session->user->username,"id_partita"=>$key,"pronostico"=>$val);
+			}else{
+				$update[]=array("id"=>$id_pronostici[$key],"id_user"=>$this->session->user->username,"id_partita"=>$key,"pronostico"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
+			}
 		}
 		
-		if ($this->giornate->updatePartite($results,"id")) {
-			$msg="Risultati aggiornati";
-			audit_log("Message: $msg. (".$this->uri->uri_string().")");
-		}else{
-			$error="Errore db aggiornamento risultati";
-			audit_log("Error: $error. (".$this->uri->uri_string().")");
-			http_response_code(500);
-			die($error);
+		$echo="";
+		if (!empty($insert)) {
+			if ($this->pronostici->insertPronostici($insert)) {
+				$msg="Giornate inserite";
+				$echo="Pronostici salvati";
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db inserimento pronostici";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
 		}
+		if (!empty($update)) {
+			if ($this->pronostici->updatePronostici($update,"id")) {
+				$msg="Pronostici aggiornati";
+				$echo="Pronostici salvati";
+				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+			}else{
+				$error="Errore db aggiornamento pronostici";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}
+		if ($echo=="") $echo="Nessuna operazione effettuata";
 		
-		echo $msg;
+		echo $echo;	
 	}
 }
 

@@ -36,7 +36,7 @@
 				  type: 'success'
 				});
 				$("#matches_table td").removeClass("has-error");
-				//setTimeout(function(){ location.reload() }, 2000);				
+				setTimeout(function(){ location.reload() }, 2000);				
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});

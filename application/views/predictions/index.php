@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="panel-heading" role="tab" id="heading<?= $key ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>">
 					  <div class="pull-right"><small><?= $giornata->msg ?></small></div>
 					  <h4 class="panel-title">
-						  Pronostici <?= $giornata->descr ?> <?php if (isset($giornata->warning)) : ?> <i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i risultati !" aria-hidden="true"></i> <?php endif ?>
+						  Pronostici <?= $giornata->descr ?> <?php if (isset($giornata->warning)) : ?> <i class="fa fa-exclamation-triangle text-danger tooltipped" data-placement="right" title="Inserire i pronostici !" aria-hidden="true"></i> <?php endif ?>
 					  </h4>					  
 					</div>
 					<?php if ($giornata->collapsable) :?>
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											$attr = array(
 												'name'				=> 'pronostico['.$partita->id.']',
 												'class'				=> 'form-control input_result',
-												'value'				=> $partita->pronostico !="" ? $partita->pronostico : "0-0"
+												'value'				=> $partita->pronostico
 											);
 											echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
 											echo form_hidden('id_pronostico['.$partita->id.']',$partita->id_pronostico);		
