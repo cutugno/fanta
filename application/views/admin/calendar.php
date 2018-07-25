@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										'class'				=> 'form-control partita_input',
 										'placeholder'		=> 'partita '.$y
 									);
-									echo form_input($attr,'','required regex="^(\w+|\s)+\-(\s|\w+)+$"');		
+									echo form_input($attr,'','required regex="^([A-Za-z0-9_àéèìòù]+|\s)+\-(\s|[A-Za-z0-9_àéèìòù]+)+$"');		
 									echo form_hidden('partita['.$x.'][id]','');		
 								?>			
 							  </div>

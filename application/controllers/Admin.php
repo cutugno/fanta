@@ -491,8 +491,28 @@ class Admin extends CI_Controller {
 			
 	}
 	
-	public function scores($id_giornata=NULL) {
-		// riepilogo punteggi per giornata
+	public function scores_all() {
+		// riepilogo punteggi per tutte le giornate archiviate
+		$allscores=[];
+		if ($giornate=$this->giornate->getArchivedGiornate()) {
+			foreach ($giornate as $key=>$giornata) {
+				$allscores[$key]['giornata']=$giornata;
+				$allscores[$key]['scores']=$this->scores_read($giornata->id);
+			}
+		}
+		//var_dump ($allscores);
+		$data['allscores']=$allscores;		
+		
+		$this->load->view('common/open',$data);
+		$this->load->view('common/navigation');
+		$this->load->view('admin/scores_all');
+		$this->load->view('common/scripts');
+		$this->load->view('admin/scores_all_scripts');
+		$this->load->view('common/close');	
+	}
+	
+	public function scores_single($id_giornata=NULL) {
+		// riepilogo punteggi per giornata	
 		
 		if (NULL==$id_giornata) {
 			// bad request
@@ -508,7 +528,20 @@ class Admin extends CI_Controller {
 			show_404();
 		}
 		
-		// query pronostici e punteggi per tutti gli utenti in questa giornata
+		$scores=$this->scores_read($id_giornata);
+		$data['scores']=$scores;
+		$data['giornata']=$giornata;
+		
+		$this->load->view('common/open',$data);
+		$this->load->view('common/navigation');
+		$this->load->view('admin/scores_single');
+		$this->load->view('common/scripts');
+		$this->load->view('admin/scores_single_scripts');
+		$this->load->view('common/close');
+	}
+	
+	private function scores_read($id_giornata=NULL) {
+		// recupero punteggi per giornata
 		
 		$matches_scores=[];
 		if ($scores=$this->giornate->getGiornataPronostici($id_giornata)) {
@@ -527,17 +560,8 @@ class Admin extends CI_Controller {
 				$match_scores[$val->id_partita][$val->id_user][]=$val;
 			}
 		}
-		
-		$data['giornata']=$giornata;
-		$data['scores']=$match_scores;
-		
-		
-		$this->load->view('common/open',$data);
-		$this->load->view('common/navigation');
-		$this->load->view('admin/scores');
-		$this->load->view('common/scripts');
-		$this->load->view('admin/scores_scripts');
-		$this->load->view('common/close');		
+				
+		return $match_scores;
 	}
 }
 

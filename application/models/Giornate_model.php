@@ -42,6 +42,13 @@
 				return false;
 			}	
 			
+			public function getArchivedGiornate() {
+				$query=$this->db->where('archived',1)
+								->order_by('fine')
+								->get('giornate');
+				return $query->result();
+			}
+			
 			public function insertGiornate($dati) {
 				// insert batch
 				$query=$this->db->insert_batch('giornate',$dati);
@@ -74,7 +81,7 @@
 			
 			public function getGiornataPronostici($id_giornata) {
 				$query=$this->db->select('pr.*,p.partita,p.risultato')
-								->join('partite p','pr.id_partita=p.id')
+								->join('partite p','pr.id_partita=p.id','right')
 								->join('giornate g','p.id_giornata=g.id')
 								->where('g.id',$id_giornata)
 								->get('pronostici pr');

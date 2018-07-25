@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li><a href="<?= site_url('admin/users') ?>">Gestione utenti</a></li>
             <li><a href="<?= site_url('admin/calendar') ?>">Gestione calendario</a></li>
             <li><a href="<?= site_url('admin/results') ?>">Gestione risultati</a></li>
+            <li><a href="<?= site_url('admin/scores') ?>">Gestione punteggi</a></li>
           </ul>
         </li>
         <?php endif ?>
