@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										}
 										if (($giornata->archived==1) && (!isset($giornata->warning))) {
 											// pulsante guarda punteggi
-											echo '<a href="#" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i> Guarda punteggi</a>';
+											echo '<a href="'.site_url('admin/scores/'.$giornata->id).'" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i> Guarda punteggi</a>';
 										}
 									}
 									echo form_close();

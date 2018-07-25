@@ -458,7 +458,8 @@ class Admin extends CI_Controller {
 		echo $msg;
 	}	
 	
-	public function calculate($id_giornata=NULL) {
+	public function scores_calculate($id_giornata=NULL) {
+		// AJAX calcolo punteggi
 		if (NULL==$id_giornata) {
 			// bad request
 			$error="Nessuna giornata selezionata";
@@ -488,6 +489,55 @@ class Admin extends CI_Controller {
 			die($error);
 		}
 			
+	}
+	
+	public function scores($id_giornata=NULL) {
+		// riepilogo punteggi per giornata
+		
+		if (NULL==$id_giornata) {
+			// bad request
+			$error="Nessuna giornata selezionata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			show_404();
+		}
+		
+		if (!$giornata=$this->giornate->getGiornata($id_giornata)) {
+			// not found
+			$error="Giornata con ID $id_giornata non trovata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			show_404();
+		}
+		
+		// query pronostici e punteggi per tutti gli utenti in questa giornata
+		
+		$matches_scores=[];
+		if ($scores=$this->giornate->getGiornataPronostici($id_giornata)) {
+			foreach ($scores as $val) {
+				switch ($val->punteggio) {
+					case 0:
+						$val->class="danger";
+						break;
+					case 3:	
+						$val->class="info";
+						break;
+					case 5:
+						$val->class="success";
+						break;
+				}
+				$match_scores[$val->id_partita][$val->id_user][]=$val;
+			}
+		}
+		
+		$data['giornata']=$giornata;
+		$data['scores']=$match_scores;
+		
+		
+		$this->load->view('common/open',$data);
+		$this->load->view('common/navigation');
+		$this->load->view('admin/scores');
+		$this->load->view('common/scripts');
+		$this->load->view('admin/scores_scripts');
+		$this->load->view('common/close');		
 	}
 }
 

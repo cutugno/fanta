@@ -56,7 +56,7 @@
 	$(".btn_calculate").click(function() {
 		$(".btn").prop("disabled",true);
 		var id_giornata=$(this).attr("data-idgiornata");
-		var url="<?= site_url('admin/calculate/') ?>"+id_giornata;
+		var url="<?= site_url('admin/scores_calculate/') ?>"+id_giornata;
 		$.get(url)
 			.done(function(resp) {
 				swal({

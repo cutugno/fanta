@@ -72,6 +72,15 @@
 				return $query;
 			}
 			
+			public function getGiornataPronostici($id_giornata) {
+				$query=$this->db->select('pr.*,p.partita,p.risultato')
+								->join('partite p','pr.id_partita=p.id')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id',$id_giornata)
+								->get('pronostici pr');
+				return $query->result();
+			}
+			
 			public function countGiornataPronostici($id_giornata) {
 				$query=$this->db->join('partite p','pr.id_partita=p.id')
 								->join('giornate g','p.id_giornata=g.id')
