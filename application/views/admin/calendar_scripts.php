@@ -41,7 +41,7 @@
 					var readonly=v.cpronostici > 0 ? "readonly" : "";
 					var picker=v.cpronostici > 0 ? "" : " dyn_datetimepicker";
 					*/
-					var readonly,picker=""; /* ... e commentare questo */
+					var readonly=""; var picker=" dyn_datetimepicker"; /* ... e commentare questo */
 					calendar_row=calendar_row.replace(/%readonly%/g,readonly);	
 					calendar_row=calendar_row.replace(/%picker%/g,picker);	
 					var matches_class=(v.matches.length==0) ? "text-danger" : "text-success";
@@ -62,6 +62,9 @@
 		calendar_row=calendar_row.replace("%inizio%","");
 		calendar_row=calendar_row.replace("%fine%","");
 		calendar_row=calendar_row.replace("%buttons%",btn_delete_calendar);
+		var readonly=""; var picker=" dyn_datetimepicker"; /* ... e commentare questo */
+		calendar_row=calendar_row.replace(/%readonly%/g,readonly);	
+		calendar_row=calendar_row.replace(/%picker%/g,picker);	
 		$("#calendar_table tbody").append(calendar_row);
 		$(".tofocus:last").focus();
 		c_giornate++;

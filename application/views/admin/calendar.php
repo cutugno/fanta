@@ -18,8 +18,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>	
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-sm-6">
 					<button class="btn btn-small btn-success" id="btn_addcalendar"><i class="fa fa-plus"></i> Aggiungi giornata</button>
+				</div>
+				<div class="col-sm-6 text-right">
+					<small>
+						<strong>Giornate: </strong>
+						&nbsp;&nbsp;
+						<span class="text-success">Giornata futura</span>
+						&nbsp;&nbsp;	
+						<span class="text-danger">Giornata terminata</span>
+						&nbsp;&nbsp;
+						<span class="text-warning">Giornata in corso</span>
+						<br />
+						<strong>Partite: </strong>
+						&nbsp;&nbsp;
+						<i class="fa fa-circle text-success" aria-hidden="true"></i> Partite inserite
+						&nbsp;&nbsp;	
+						<i class="fa fa-circle text-danger" aria-hidden="true"></i> Partite da inserire						
+						&nbsp;&nbsp;	
+						<i class="fa fa-circle" aria-hidden="true"></i> Giornata ancora da salvare						
+					</small>
 				</div>
 			</div>
 			<?php 

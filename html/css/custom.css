@@ -19,3 +19,9 @@ cursor:pointer;
 #matches_table input {
 text-align:center;
 }
+
+@media (min-width: 768px) {
+	.navbar {
+		border-radius: 0px;
+	}
+}
