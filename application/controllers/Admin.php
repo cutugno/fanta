@@ -49,7 +49,8 @@ class Admin extends CI_Controller {
 		/* GESTIONE RISULTATI */
 		
 		// per le giornate senza partite il pannello è disabilitato (chiuso) 
-		// per le giornate finite il pannello è abilitato ma il form risultati è disabilitato
+		// per le giornate finite il pannello è abilitato
+		// per le giornate future il pannello è abilitato ma il form risultati è disabilitato
 
 		if ($giornate=$this->giornate->listGiornate()) {
 			foreach ($giornate as &$giornata) {
@@ -59,19 +60,22 @@ class Admin extends CI_Controller {
 					$fine=convertDateTime($giornata->fine);
 					$inizio=convertDateTime($giornata->inizio);
 					if (compareDates($fine,">",$now)) {
+						// GIORNATA TERMINATA
 						$giornata->panel_class="panel-danger"; // sfondo panel heading
-						$giornata->editable=" disabled"; // input risultati 
+						$giornata->editable=$giornata->archived==0 ? "" : " disabled"; // input risultati 
 						$giornata->msg="Giornata terminata il ".$fine; // messaggio heading a destra
 						$giornata->terminata=true;
+						if (!isset($giornata->partite[0]->risultato)) $giornata->warning=true; // icona warning per giornata futura senza risultati
 					}else if (compareDates($inizio,"<",$now)) {
+						// GIORNATA IN CORSO
 						$giornata->panel_class="panel-warning";
-						$giornata->editable=" disabled"; // true
+						$giornata->editable=" disabled"; 
 						$giornata->msg="Giornata in corso (finisce il ".convertDateTime($giornata->fine,true).")";
 					}else{
+						// GIORNATA FUTURA
 						$giornata->panel_class="panel-success";
-						$giornata->editable=""; // true
+						$giornata->editable=" disabled"; // true
 						$giornata->msg="Giornata futura (inizia il ".convertDateTime($giornata->inizio,true).")";
-						if (!isset($giornata->partite[0]->risultato)) $giornata->warning=true; // icona warning per giornata futura senza risultati
 					}
 					$giornata->collapsable=true; // abilita il collapse del panel					
 				}else{
@@ -412,5 +416,37 @@ class Admin extends CI_Controller {
 		
 		echo $msg;
 	}	
+	
+	public function calculate($id_giornata=NULL) {
+		if (NULL==$id_giornata) {
+			// bad request
+			$error="Nessuna giornata selezionata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		if (!$this->giornate->getGiornata($id_giornata)) {
+			// not found
+			$error="Giornata con ID $id_giornata non trovata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(404);
+			die($error);
+		}
+		
+		if ($this->pronostici->calcolaPunteggi($id_giornata)) {
+			// calcolo completato
+			$msg="Calcolo completato";
+			audit_log("Msg: $msg. (".$this->uri->uri_string().")");
+			echo $msg;
+		}else{
+			// db error
+			$error="Errore durante la procedura di calcolo";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(500);
+			die($error);
+		}
+			
+	}
 }
 

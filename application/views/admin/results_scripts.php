@@ -27,7 +27,6 @@
 		var url="<?= site_url('admin/results_update') ?>";
 		$.post(url, dati)
 			.done(function(resp) {
-				console.log(resp);	
 				swal({
 				  title: '',
 				  html: resp,
@@ -51,5 +50,28 @@
 			messages: validation_results_messages,
 			submitHandler: results_validation
 		});
+	});
+	
+	// calcolo punteggi
+	$(".btn_calculate").click(function() {
+		$(".btn").prop("disabled",true);
+		var id_giornata=$(this).attr("data-idgiornata");
+		var url="<?= site_url('admin/calculate/') ?>"+id_giornata;
+		$.get(url)
+			.done(function(resp) {
+				swal({
+				  title: '',
+				  html: resp,
+				  showConfirmButton:false,
+				  timer: 2000,
+				  type: 'success'
+				});
+				$("#matches_table td").removeClass("has-error");
+				setTimeout(function(){ location.reload() }, 2000);				
+			})
+			.fail(function(resp) {
+				swal({title:"", html:resp.responseText, type: "error"});
+				$(".btn").prop("disabled",false);
+			});
 	});
 </script>

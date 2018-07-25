@@ -80,25 +80,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										  <?php endforeach ?>
 									</tbody>
 								</table>
-								<?php
-									$attr = array(
-											'id'            => 'btn_create',
-											'class'			=> 'btn btn-primary',
-											'type'          => 'submit',
-											'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva risultati'
-									);
-									if ($giornata->editable !=" disabled") echo form_button($attr);
-									
+								<?php									
 									if (isset($giornata->terminata)) {
 										if ($giornata->archived==0) {
-										$attr = array(
-											'id'            => 'btn_calculate',
-											'class'			=> 'btn btn-primary',
-											'type'          => 'button',
-											'content'		=> '<i class="fa fa-bolt" aria-hidden="true"></i> Calcola punteggi'
-										);
-										echo form_button($attr);
-										}else{
+											// pulsante salva risultati
+											$attr = array(
+												'id'            => 'btn_create',
+												'class'			=> 'btn btn-primary',
+												'type'          => 'submit',
+												'content'		=> '<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva risultati'
+											);
+											echo form_button($attr);
+										}
+										if (($giornata->archived==0) && (!isset($giornata->warning))) {
+											// pulsante calcola punteggi
+											$attr = array(
+												'class'				=> 'btn btn-success btn_calculate',
+												'type'          	=> 'button',
+												'content'			=> '<i class="fa fa-bolt" aria-hidden="true"></i> Calcola punteggi',
+												'data-idgiornata'	=> $giornata->id
+											);
+											echo form_button($attr);
+										}
+										if (($giornata->archived==1) && (!isset($giornata->warning))) {
+											// pulsante guarda punteggi
 											echo '<a href="#" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i> Guarda punteggi</a>';
 										}
 									}

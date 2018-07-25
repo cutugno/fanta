@@ -30,5 +30,41 @@
 				$query=$this->db->update_batch('pronostici',$dati,$where);
 				return $query;
 			}
+			
+			public function calcolaPunteggi($id_giornata) {
+				$query_calcolo="update pronostici pr 
+						join partite p on pr.id_partita = p.id 
+						join giornate g on p.id_giornata = g.id
+						set g.archived = 1,
+						pr.punteggio = 
+						if ( 
+							(left(p.risultato,1) = left(pr.pronostico,1))
+								and
+							(right(p.risultato,1) = right(pr.pronostico,1))
+						,5,
+							if (
+								(
+									(left(p.risultato,1) > right(p.risultato,1))
+										and
+									(left(pr.pronostico,1) > right(pr.pronostico,1))
+								)
+								or
+								(
+									(left(p.risultato,1) = right(p.risultato,1))
+										and
+									(left(pr.pronostico,1) = right(pr.pronostico,1))
+								)
+								or
+								(
+									(left(p.risultato,1) < right(p.risultato,1))
+										and
+									(left(pr.pronostico,1) < right(pr.pronostico,1))
+								)
+							,3,0)
+						)
+						where pr.id_partita in (select id from partite where id_giornata = $id_giornata)";
+				$query=$this->db->query($query_calcolo);
+				return $query;
+			}
 	}
 ?>
