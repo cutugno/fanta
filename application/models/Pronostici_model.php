@@ -32,37 +32,39 @@
 			}
 			
 			public function calcolaPunteggi($id_giornata) {
-				$query_calcolo="update pronostici pr 
-						join partite p on pr.id_partita = p.id 
-						join giornate g on p.id_giornata = g.id
-						set g.archived = 1,
-						pr.punteggio = 
-						if ( 
-							(left(p.risultato,1) = left(pr.pronostico,1))
+				$query_calcolo="
+				update pronostici pr 
+				join partite p on pr.id_partita = p.id 
+				join giornate g on p.id_giornata = g.id
+				set g.archived = 1,
+				pr.punteggio = 
+				if ( 
+					(left(p.risultato,(locate('-',risultato))-1) = left(pr.pronostico,(locate('-',risultato))-1))
+						and
+					(right(p.risultato,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
+				,5,
+					if (
+						(
+							(left(p.risultato,(locate('-',risultato))-1) > right(p.risultato,(locate('-',risultato))-1))
 								and
-							(right(p.risultato,1) = right(pr.pronostico,1))
-						,5,
-							if (
-								(
-									(left(p.risultato,1) > right(p.risultato,1))
-										and
-									(left(pr.pronostico,1) > right(pr.pronostico,1))
-								)
-								or
-								(
-									(left(p.risultato,1) = right(p.risultato,1))
-										and
-									(left(pr.pronostico,1) = right(pr.pronostico,1))
-								)
-								or
-								(
-									(left(p.risultato,1) < right(p.risultato,1))
-										and
-									(left(pr.pronostico,1) < right(pr.pronostico,1))
-								)
-							,3,0)
+							(left(pr.pronostico,(locate('-',risultato))-1) > right(pr.pronostico,(locate('-',risultato))-1))
 						)
-						where pr.id_partita in (select id from partite where id_giornata = $id_giornata)";
+						or
+						(
+							(left(p.risultato,(locate('-',risultato))-1) = right(p.risultato,(locate('-',risultato))-1))
+								and
+							(left(pr.pronostico,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
+						)
+						or
+						(
+							(left(p.risultato,(locate('-',risultato))-1) < right(p.risultato,(locate('-',risultato))-1))
+								and
+							(left(pr.pronostico,(locate('-',risultato))-1) < right(pr.pronostico,(locate('-',risultato))-1))
+						)
+					,3,0)
+				)
+				where pr.id_partita in (select id from partite where id_giornata = $id_giornata)
+				";
 				$query=$this->db->query($query_calcolo);
 				return $query;
 			}
