@@ -246,11 +246,13 @@ class Admin extends CI_Controller {
 			foreach ($partite as &$elem) {
 				unset($elem['id']); // tolgo parametro id
 				$elem['id_giornata']=$id_giornata; // aggiungo parametro id giornata
+				$elem['last_edit']=date("Y-m-d H:i:s");
 			}
 			if ($this->giornate->insertPartite($partite)) {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				// DEVO CREARE DEI PRONOSTICI NULL PER OGNI PARTITA CREATA PER OGNI UTENTE
 			}else{
 				$error="Errore db inserimento partite";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");

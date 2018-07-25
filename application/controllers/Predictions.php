@@ -105,7 +105,7 @@ class Predictions extends CI_Controller {
 		foreach ($pronostici as $key=>$val) {
 			// se id_pronostico[$key] != "" è un update, altrimenti è insert
 			if ($id_pronostici[$key] == "") {
-				$insert[]=array("id_user"=>$this->session->user->username,"id_partita"=>$key,"pronostico"=>$val);
+				$insert[]=array("id_user"=>$this->session->user->username,"id_partita"=>$key,"pronostico"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
 			}else{
 				$update[]=array("id"=>$id_pronostici[$key],"id_user"=>$this->session->user->username,"id_partita"=>$key,"pronostico"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
 			}
