@@ -54,7 +54,7 @@ class Admin extends CI_Controller {
 
 		if ($giornate=$this->giornate->listGiornate()) {
 			foreach ($giornate as &$giornata) {
-				$giornata->partite=$this->giornate->getGiornataPartite($giornata->id);
+				$giornata->partite=$this->partite->getGiornataPartite($giornata->id);
 				if (!empty($giornata->partite)){					
 					$now=date("d/m/Y H:i:s");
 					$fine=convertDateTime($giornata->fine);
@@ -105,8 +105,8 @@ class Admin extends CI_Controller {
 			foreach ($calendar as &$giornata) {
 				$giornata->inizio=convertDateTime($giornata->inizio,1);
 				$giornata->fine=convertDateTime($giornata->fine,1);
-				$giornata->matches=$this->giornate->getGiornataPartite($giornata->id);
-				$giornata->cpronostici=$this->giornate->countGiornataPronostici($giornata->id);
+				$giornata->matches=$this->partite->getGiornataPartite($giornata->id);
+				$giornata->cpronostici=$this->pronostici->countGiornataPronostici($giornata->id);
 				audit_log(json_encode($giornata));	
 				$now=date("d/m/Y H:i:s");
 				if (compareDates($giornata->fine.":00",">",$now)) {
@@ -226,7 +226,7 @@ class Admin extends CI_Controller {
 			die($error);
 		}
 		
-		$matches=$this->giornate->getGiornataPartite($id_giornata);		
+		$matches=$this->partite->getGiornataPartite($id_giornata);		
 		echo json_encode($matches);
 	}
 	
@@ -250,7 +250,7 @@ class Admin extends CI_Controller {
 			foreach ($partite as &$val) {
 				$val['last_edit']=date("Y-m-d H:i:s");
 			}
-			if ($this->giornate->updatePartite($partite,"id")) {
+			if ($this->partite->updatePartite($partite,"id")) {
 				$msg="Partite aggiornate";
 				$echo="Partite aggiornate. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
@@ -267,13 +267,13 @@ class Admin extends CI_Controller {
 				$elem['id_giornata']=$id_giornata; // aggiungo parametro id giornata
 				$elem['last_edit']=date("Y-m-d H:i:s");
 			}
-			if ($this->giornate->insertPartite($partite)) {
+			if ($this->partiteupdat->insertPartite($partite)) {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
 				/* creo pronostici vuoti per ogni partita appena creata */
 				// trovo id partite (appena create) della giornata $id_giornata
-				$id_partite=$this->giornate->getGiornataIDPartite($id_giornata);
+				$id_partite=$this->partite->getGiornataIDPartite($id_giornata);
 				// creo array pronostici da inserire in batch con campo id_user vuoto
 				$pronostici=[];
 				foreach ($id_partite as $val) {
@@ -445,7 +445,7 @@ class Admin extends CI_Controller {
 			$results[]=array("id"=>$key,"risultato"=>$val,"last_edit"=>date("Y-m-d H:i:s"));
 		}
 		
-		if ($this->giornate->updatePartite($results,"id")) {
+		if ($this->partite->updatePartite($results,"id")) {
 			$msg="Risultati aggiornati";
 			audit_log("Message: $msg. (".$this->uri->uri_string().")");
 		}else{
@@ -544,7 +544,7 @@ class Admin extends CI_Controller {
 		// recupero punteggi per giornata
 		
 		$matches_scores=[];
-		if ($scores=$this->giornate->getGiornataPronostici($id_giornata)) {
+		if ($scores=$this->pronostici->getGiornataPronostici($id_giornata)) {
 			foreach ($scores as $val) {
 				switch ($val->punteggio) {
 					case 0:

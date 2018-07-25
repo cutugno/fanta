@@ -24,7 +24,7 @@ class Predictions extends CI_Controller {
 
 		if ($giornate=$this->giornate->listGiornate(true)) {
 			foreach ($giornate as &$giornata) {
-				$giornata->partite=$this->giornate->getGiornataPartite($giornata->id);	
+				$giornata->partite=$this->partite->getGiornataPartite($giornata->id);	
 				if (!empty($giornata->partite)){					
 					$now=date("d/m/Y H:i:s");
 					$fine=convertDateTime($giornata->fine);
@@ -49,12 +49,12 @@ class Predictions extends CI_Controller {
 					$giornata->editable=" disabled";
 					$giornata->msg="Giornata senza partite (inizia il ".convertDateTime($giornata->inizio,true).")";
 				}	
-				$pronostici=$this->pronostici->getUserPartitaPronostici($this->session->user->username,$giornata->id);
+				$pronostici=$this->pronostici->getUserGiornataPronostici($this->session->user->username,$giornata->id);
 				if (empty($pronostici)) $giornata->warning=true;	
 				$pronos=[];
 				foreach ($pronostici as $val) {
 					$p=new stdClass();
-					$p->id_pronostico=$val->id_pronostico;
+					$p->id_pronostico=$val->id;
 					$p->pronostico=$val->pronostico;
 					$pronos[$val->id_partita]=$p;
 				}

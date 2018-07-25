@@ -22,26 +22,6 @@
 				return $query->row();
 			}
 			
-			public function getGiornataPartite($id_giornata) {
-				$query=$this->db->where('id_giornata',$id_giornata)
-								->get('partite');
-				return $query->result();
-			}
-			
-			public function getGiornataIDPartite($id_giornata) {
-				$query=$this->db->select('id')
-								->where('id_giornata',$id_giornata)
-								->get('partite');				
-				if ($res=$query->result()) {
-					$ids=[];
-					foreach ($res as $val) {
-						$ids[]=$val->id;
-					}
-					return $ids;
-				}
-				return false;
-			}	
-			
 			public function getArchivedGiornate() {
 				$query=$this->db->where('archived',1)
 								->order_by('fine')
@@ -66,35 +46,6 @@
 								->delete('giornate');
 				return $this->db->affected_rows() > 0;
 			}
-			
-			public function insertPartite($dati) {
-				// insert batch
-				$query=$this->db->insert_batch('partite',$dati);
-				return $query;
-			}
-					
-			public function updatePartite($dati,$where) {
-				// update batch
-				$query=$this->db->update_batch('partite',$dati,$where);
-				return $query;
-			}
-			
-			public function getGiornataPronostici($id_giornata) {
-				$query=$this->db->select('pr.*,p.partita,p.risultato')
-								->join('partite p','pr.id_partita=p.id','right')
-								->join('giornate g','p.id_giornata=g.id')
-								->where('g.id',$id_giornata)
-								->get('pronostici pr');
-				return $query->result();
-			}
-			
-			public function countGiornataPronostici($id_giornata) {
-				$query=$this->db->join('partite p','pr.id_partita=p.id')
-								->join('giornate g','p.id_giornata=g.id')
-								->where('g.id',$id_giornata)
-								->where('pr.pronostico !=',null)
-								->count_all_results('pronostici pr');
-				return $query;
-			}
+	
 	}
 ?>

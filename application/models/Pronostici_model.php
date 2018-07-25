@@ -7,16 +7,32 @@
 					$this->load->database();
 			}
 			
-			public function getUserPartitaPronostici($id_user,$id_giornata) {
+			public function getGiornataPronostici($id_giornata) {
+				$query=$this->db->select('pr.*,p.partita,p.risultato')
+								->join('partite p','pr.id_partita=p.id','right')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id',$id_giornata)
+								->get('pronostici pr');
+				return $query->result();
+			}
+			
+			public function countGiornataPronostici($id_giornata) {
+				$query=$this->db->join('partite p','pr.id_partita=p.id')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id',$id_giornata)
+								->where('pr.pronostico !=',null)
+								->count_all_results('pronostici pr');
+				return $query;
+			}
+			
+			public function getUserGiornataPronostici($id_user,$id_giornata) {
 				$query_partite=$this->db->select('id')
 										->where('id_giornata',$id_giornata)
 										->get_compiled_select('partite');
-				$query=$this->db->select('id as id_pronostico,id_partita,pronostico')
-								->where('id_user',$id_user)
+				$query=$this->db->where('id_user',$id_user)
 								->where_in('id_partita',$query_partite,false)
 								->get('pronostici');
-				return $query->result();
-				
+				return $query->result();				
 			}
 			
 			public function insertPronostici($dati) {
