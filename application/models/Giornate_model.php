@@ -28,6 +28,20 @@
 				return $query->result();
 			}
 			
+			public function getGiornataIDPartite($id_giornata) {
+				$query=$this->db->select('id')
+								->where('id_giornata',$id_giornata)
+								->get('partite');				
+				if ($res=$query->result()) {
+					$ids=[];
+					foreach ($res as $val) {
+						$ids[]=$val->id;
+					}
+					return $ids;
+				}
+				return false;
+			}	
+			
 			public function insertGiornate($dati) {
 				// insert batch
 				$query=$this->db->insert_batch('giornate',$dati);
@@ -55,6 +69,15 @@
 			public function updatePartite($dati,$where) {
 				// update batch
 				$query=$this->db->update_batch('partite',$dati,$where);
+				return $query;
+			}
+			
+			public function countGiornataPronostici($id_giornata) {
+				$query=$this->db->join('partite p','pr.id_partita=p.id')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id',$id_giornata)
+								->where('pr.pronostico !=',null)
+								->count_all_results('pronostici pr');
 				return $query;
 			}
 	}

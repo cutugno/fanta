@@ -35,6 +35,15 @@
 					calendar_row=calendar_row.replace(/%id%/g,v.id);
 					calendar_row=calendar_row.replace(/%c%/g,c_giornate);
 					calendar_row=calendar_row.replace(/%descr%/g,v.descr);	
+					calendar_row=calendar_row.replace(/%started%/g,v.started);	
+					calendar_row=calendar_row.replace(/%giornata_class%/g,v.class);	
+					/* se si decide di disabilitare cambio date se giornata ha dei pronostici scommentare questo...
+					var readonly=v.cpronostici > 0 ? "readonly" : "";
+					var picker=v.cpronostici > 0 ? "" : " dyn_datetimepicker";
+					*/
+					var readonly,picker=""; /* ... e commentare questo */
+					calendar_row=calendar_row.replace(/%readonly%/g,readonly);	
+					calendar_row=calendar_row.replace(/%picker%/g,picker);	
 					var matches_class=(v.matches.length==0) ? "text-danger" : "text-success";
 					calendar_row=calendar_row.replace("%matches_class%",matches_class);
 					$("#calendar_table tbody").append(calendar_row);
@@ -100,6 +109,7 @@
 		resetForm($("#matches_form"));
 		var id_giornata=$(this).attr("data-id_giornata");
 		var descr_giornata=$(this).attr("data-descr_giornata");
+		var started=$(this).attr("data-started");
 		$("input[name='id_giornata']").val(id_giornata);
 		$("#descr_giornata").html(descr_giornata);
 		var url="<?= site_url('admin/matches_read/') ?>"+id_giornata;
@@ -114,6 +124,8 @@
 				});
 			}
 		});
+		$("#btn_save_matches").toggle(started=="false");
+		$(".partita_input").prop("disabled",started=="true");
 		$("#matches_modal").modal();
 	});
 	

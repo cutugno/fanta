@@ -157,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<th class="text-center">USERNAME</th>
 								<th class="text-center">NOME</th>
-								<th class="text-center filter-false">ULTIMO LOGIN</th>						
+								<th class="text-center sorter-false">ULTIMO LOGIN</th>						
 								<th class="filter-false sorter-false"></th>
 							</tr>
 						</thead>	

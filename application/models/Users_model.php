@@ -46,8 +46,7 @@
 			}
 			
 			public function listUsers() {
-				$query=$this->db->where('level !=',3)
-								->order_by('username')
+				$query=$this->db->order_by('username')
 								->get('users');
 				return $query->result();
 			}

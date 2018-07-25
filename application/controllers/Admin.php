@@ -106,6 +106,22 @@ class Admin extends CI_Controller {
 				$giornata->inizio=convertDateTime($giornata->inizio,1);
 				$giornata->fine=convertDateTime($giornata->fine,1);
 				$giornata->matches=$this->giornate->getGiornataPartite($giornata->id);
+				$giornata->cpronostici=$this->giornate->countGiornataPronostici($giornata->id);
+				audit_log(json_encode($giornata));	
+				$now=date("d/m/Y H:i:s");
+				if (compareDates($giornata->fine.":00",">",$now)) {
+					// GIORNATA TERMINATA
+					$giornata->started=true;
+					$giornata->class="danger";
+				}else if (compareDates($giornata->inizio.":00","<",$now)) {
+					// GIORNATA IN CORSO
+					$giornata->started=true;
+					$giornata->class="warning";
+				}else{
+					// GIORNATA FUTURA
+					$giornata->started=false;
+					$giornata->class="success";
+				}
 			}		
 		}
 		echo json_encode($calendar);
@@ -224,13 +240,16 @@ class Admin extends CI_Controller {
 		}
 		$post=$this->input->post();
 		$id_giornata=$post['id_giornata'];
-		$partite=$post['partita'];		
+		$partite=$post['partita'];	
 		
 		// json nuove partite: {"id_giornata":"2","partita":[{"partita":"d","id":""},{"partita":"f","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""},{"partita":"g","id":""}]}
 		// json partite esistenti: {"id_giornata":"1","partita":[{"partita":"ab","id":"21"},{"partita":"cd","id":"22"},{"partita":"ef","id":"23"},{"partita":"gh","id":"24"},{"partita":"ij","id":"25"},{"partita":"kl","id":"26"},{"partita":"mn","id":"27"},{"partita":"op","id":"28"},{"partita":"qr","id":"29"},{"partita":"st","id":"30"}]}
 			
 		if ($partite[0]['id'] != "") {
 			// batch update
+			foreach ($partite as &$val) {
+				$val['last_edit']=date("Y-m-d H:i:s");
+			}
 			if ($this->giornate->updatePartite($partite,"id")) {
 				$msg="Partite aggiornate";
 				$echo="Partite aggiornate. Calendario salvato";
@@ -252,7 +271,35 @@ class Admin extends CI_Controller {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
-				// DEVO CREARE DEI PRONOSTICI NULL PER OGNI PARTITA CREATA PER OGNI UTENTE
+				
+				/* DEVO CREARE DEI PRONOSTICI NULL PER OGNI PARTITA CREATA PER OGNI UTENTE
+					trovo id partite della giornata $id_giornata
+					creo array pronostici da inserire in batch con campo id_user vuoto
+					per ogni user inserisco username in array pronostico e faccio insert_batch
+				*/
+				// trovo id partite (appena create) della giornata $id_giornata
+				$id_partite=$this->giornate->getGiornataIDPartite($id_giornata);
+				
+				// creo array pronostici da inserire in batch con campo id_user vuoto
+				$pronostici=[];
+				foreach ($id_partite as $val) {
+					$pronostici[]=array("id_partita"=>$val,"pronostico"=>NULL,"punteggio"=>NULL,"last_edit"=>date("Y-m-d H_i_s"));
+				}
+				
+				// per ogni user inserisco username in array batch_pronostici
+				$users=$this->users->listUsers();
+				$batch_pronostici=[];
+				foreach ($users as $user) {
+					foreach ($pronostici as $key=>$val) {
+						$pronostici[$key]['id_user']=$user->username;
+						$batch_pronostici[]=$pronostici[$key];
+					}
+				}
+				// insert batch
+				if (!$this->pronostici->insertPronostici($batch_pronostici)) {
+					audit_log ("Errore inserimento pronostici vuoti per giornata $id_giornata appena creata");
+				}
+				
 			}else{
 				$error="Errore db inserimento partite";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
