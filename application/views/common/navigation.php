@@ -25,10 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="<?= site_url('admin/users') ?>">Gestione utenti</a></li>
-            <li><a href="<?= site_url('admin/calendar') ?>">Gestione calendario</a></li>
-            <li><a href="<?= site_url('admin/results') ?>">Gestione risultati</a></li>
-            <li><a href="<?= site_url('admin/scores') ?>">Gestione punteggi</a></li>
+            <li><a href="<?= site_url('admin/users') ?>">Utenti</a></li>
+            <li><a href="<?= site_url('admin/calendar') ?>">Calendario</a></li>
+            <li><a href="<?= site_url('admin/results') ?>">Risultati</a></li>
+            <li><a href="<?= site_url('admin/scores') ?>">Punteggi</a></li>
           </ul>
         </li>
         <?php endif ?>
