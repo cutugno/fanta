@@ -271,21 +271,14 @@ class Admin extends CI_Controller {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");
-				
-				/* DEVO CREARE DEI PRONOSTICI NULL PER OGNI PARTITA CREATA PER OGNI UTENTE
-					trovo id partite della giornata $id_giornata
-					creo array pronostici da inserire in batch con campo id_user vuoto
-					per ogni user inserisco username in array pronostico e faccio insert_batch
-				*/
+				/* creo pronostici vuoti per ogni partita appena creata */
 				// trovo id partite (appena create) della giornata $id_giornata
 				$id_partite=$this->giornate->getGiornataIDPartite($id_giornata);
-				
 				// creo array pronostici da inserire in batch con campo id_user vuoto
 				$pronostici=[];
 				foreach ($id_partite as $val) {
 					$pronostici[]=array("id_partita"=>$val,"pronostico"=>NULL,"punteggio"=>NULL,"last_edit"=>date("Y-m-d H_i_s"));
 				}
-				
 				// per ogni user inserisco username in array batch_pronostici
 				$users=$this->users->listUsers();
 				$batch_pronostici=[];
@@ -298,8 +291,7 @@ class Admin extends CI_Controller {
 				// insert batch
 				if (!$this->pronostici->insertPronostici($batch_pronostici)) {
 					audit_log ("Errore inserimento pronostici vuoti per partite giornata $id_giornata appena create");
-				}
-				
+				}				
 			}else{
 				$error="Errore db inserimento partite";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
