@@ -297,7 +297,7 @@ class Admin extends CI_Controller {
 				}
 				// insert batch
 				if (!$this->pronostici->insertPronostici($batch_pronostici)) {
-					audit_log ("Errore inserimento pronostici vuoti per giornata $id_giornata appena creata");
+					audit_log ("Errore inserimento pronostici vuoti per partite giornata $id_giornata appena create");
 				}
 				
 			}else{
