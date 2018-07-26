@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li><a href="<?= base_url() ?>">Dashboard</a></li>
         <li><a href="<?= site_url('predictions') ?>">Pronostici</a></li>
         <li><a href="<?= site_url('results') ?>">Risultati</a></li>
-        <li><a href="<?= site_url('standings') ?>#">Classifica</a></li>
+        <li><a href="<?= site_url('standings') ?>">Classifica</a></li>
         <?php if ($this->session->user->level > 1) : ?> 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>

@@ -84,5 +84,14 @@
 				$query=$this->db->query($query_calcolo);
 				return $query;
 			}
+			
+			public function calcolaClassifica() {
+				$query=$this->db->select('id_user,sum(punteggio) punti')
+								->group_by('id_user')
+								->order_by('punti','DESC')
+								->get('pronostici');
+				return $query->result();
+				
+			}
 	}
 ?>
