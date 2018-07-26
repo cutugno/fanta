@@ -381,9 +381,13 @@ class Admin extends CI_Controller {
 		} 
 		
 		$post=$this->input->post();
-		if (isset($post['password'])) $post['password']=sha1($post['password']);
-		if (isset($post['c_password'])) unset($post['c_password']);
+		
+		audit_log (json_encode($this->input->post()));
+		http_response_code(500);
+		die("Sistema validazione password con regex alfanumerici");
+		
 		$old_username=$post['old_username'];unset($post['old_username']);
+		// controlla post password
 		
 		if (!$this->users->getUser($old_username)) {
 			$error="Impossibile modificare $old_username. Utente non trovato";

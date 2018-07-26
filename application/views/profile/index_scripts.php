@@ -1,6 +1,6 @@
 <script src="<?= site_url('js/validation_rules.js') ?>"></script>
 <script type="text/javascript">
-	
+		
 	var user_validation=function(form) {
 		var dati=$("#user_form").serialize();
 		var url="<?= site_url('admin/user_update') ?>";
@@ -13,7 +13,7 @@
 				  timer: 2000,
 				  type: 'success'
 				});
-				//setTimeout(function(){ window.location.href="<?= site_url('admin/users/') ?>"+resp }, 2000);
+				setTimeout(function(){ window.location.href="<?= site_url('profile') ?>" }, 2000);
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});
@@ -27,6 +27,4 @@
 		messages: validation_user_messages,
 		submitHandler: user_validation
 	});
-	
-	
 </script>
