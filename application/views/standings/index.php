@@ -49,7 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-md-8">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<div id="chart_div"></div>
+					<div id="chart_div"></div> 
+					<!-- <canvas id="myChart" width="400" height="400"></canvas> -->
 				</div>
 			</div>
 		</div>

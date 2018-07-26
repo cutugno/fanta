@@ -56,6 +56,9 @@ class Standings extends CI_Controller {
 			case "google":
 				$chart=$this->google_standings_chart($standings);
 				break;
+			case "chartjs":
+				$chart=$this->chartjs_standings_chart($standings);
+				break;
 		}
 		
 		echo $chart;
@@ -74,8 +77,28 @@ class Standings extends CI_Controller {
 		return $standings; // array
 	}
 	
+	private function chartjs_standings_chart($standings) {
+		// elaboro classifica per charts.js
+		$labels=[]; // conterrà gli username
+		$data=[]; // conterrà i punteggi
+		$colors=[]; // conterrà i codici colorenel formato rgba(255, 99, 132, 0.2)
+		$chart=[]; // output
+		
+		foreach ($standings as $key=>$val) {
+			$labels[]=$key;
+			$data[]=$val;
+			$colors[]="rgba(0, ".$val.", 0, 0.8)";
+		}
+		$chart['labels']=$labels;
+		$chart['data']=$data;
+		$chart['colors']=$colors;
+		$chart['label']="Punti";
+		
+		return json_encode($chart);			
+	}
+	
 	private function google_standings_chart($standings) {
-		// elaboro classifica in google tableData JSON
+		// elaboro classifica per google tableData JSON
 		
 		// $standings -> array classifica		
 		$chart=[];
@@ -87,7 +110,7 @@ class Standings extends CI_Controller {
 				   );
 		$rows=[];
 		foreach ($standings as $key=>$val) {
-			$color=$this->points_to_color($val);
+			$color=$this->points_to_hex($val);
 			$c=[];
 			$c['c'][]=array("v"=>$key,"f"=>$key); // in f posso metterci <img src... /> con l'avatar
 			$c['c'][]=array("v"=>$val);			
@@ -101,7 +124,7 @@ class Standings extends CI_Controller {
 		return json_encode($chart);
 	}
 		
-	private function points_to_color($points) {
+	private function points_to_hex($points) {
 		// converte punti in esadecimale lungo 6 caratteri per colore sfondo 
 		$hexString = dechex($points);
 		$result = str_pad($hexString,6,"0",STR_PAD_LEFT);
