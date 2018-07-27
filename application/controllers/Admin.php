@@ -265,7 +265,7 @@ class Admin extends CI_Controller {
 				$elem['id_giornata']=$id_giornata; // aggiungo parametro id giornata
 				$elem['last_edit']=date("Y-m-d H:i:s");
 			}
-			if ($this->partiteupdat->insertPartite($partite)) {
+			if ($this->partite->insertPartite($partite)) {
 				$msg="Partite inserite";
 				$echo="Partite inserite. Calendario salvato";
 				audit_log("Message: $msg. (".$this->uri->uri_string().")");

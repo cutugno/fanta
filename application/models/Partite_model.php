@@ -47,6 +47,40 @@
 								->get('partite p');
 				return $query->result();
 			}
+			
+			public function getLastGiornataPartite() {
+				// select p.id_giornata,g.descr,p.partita,p.risultato,g.inizio,g.fine from partite p
+				// join giornate g on p.id_giornata=g.id
+				// where g.id = (SELECT id FROM giornate where fine < now() order by fine desc limit 1)	
+				
+				$subquery=$this->db->select('id')
+								   ->where('fine <','now()',false)
+								   ->order_by('fine','desc')
+								   ->limit(1)
+								   ->get_compiled_select('giornate');
+				$query=$this->db->select('p.id_giornata,g.descr,p.partita,p.risultato,g.inizio,g.fine')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id','('.$subquery.')',false)
+								->get('partite p'); 
+				return $query->result();
+			}
+			
+			public function getNextGiornataPartite() {
+				// select p.id_giornata,g.descr,p.partita,p.risultato,g.inizio,g.fine from partite p
+				// join giornate g on p.id_giornata=g.id
+				// where g.id = (SELECT * FROM giornate where inizio > now() order by inizio limit 1)	
+				
+				$subquery=$this->db->select('id')
+								   ->where('inizio >','now()',false)
+								   ->order_by('inizio')
+								   ->limit(1)
+								   ->get_compiled_select('giornate');
+				$query=$this->db->select('p.id_giornata,g.descr,p.partita,p.risultato,g.inizio,g.fine')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id','('.$subquery.')',false)
+								->get('partite p'); 
+				return $query->result();
+			}
 
 	}
 ?>

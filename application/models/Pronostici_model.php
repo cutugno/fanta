@@ -85,13 +85,63 @@
 				return $query;
 			}
 			
-			public function calcolaClassifica() {
-				$query=$this->db->select('id_user,sum(punteggio) punti')
-								->group_by('id_user')
+			public function calcolaClassifica($id_user=false) {
+				$query=$this->db->select('id_user,sum(punteggio) punti');
+				if ($id_user) $query=$this->db->where('id_user',$id_user);
+				$query=$this->db->group_by('id_user')
 								->order_by('punti','DESC')
 								->get('pronostici');
+				if ($id_user) return $query->row();
 				return $query->result();
 				
+			}
+			
+			public function getLastGiornataTopPronostici() {
+				/*
+				select id_user, sum(punteggio) punti from pronostici 
+				where id_partita in(select id from partite where id_giornata=(select id from view_last_giornata))
+				group by id_user order by punti desc limit 1;
+				*/ 
+				
+				$subsubquery=$this->db->select('id')
+								   ->where('fine <','now()',false)
+								   ->order_by('fine','desc')
+								   ->limit(1)
+								   ->get_compiled_select('giornate');
+				$subquery=$this->db->select('id')
+								   ->where('id_giornata','('.$subsubquery.')',false)
+								   ->get_compiled_select('partite');
+				$query=$this->db->select('id_user,sum(punteggio) punti')
+								->where_in('id_partita',$subquery,false)
+								->group_by('id_user')
+								->order_by('punti','desc')
+								->limit(1)
+								->get('pronostici');
+				return $query->row();
+			}
+			
+			public function getLastGiornataFlopPronostici() {
+				/*
+				select id_user, sum(punteggio) punti from pronostici 
+				where id_partita in(select id from partite where id_giornata=(select id from view_last_giornata))
+				group by id_user order by punti ASC limit 1;
+				*/ 
+				
+				$subsubquery=$this->db->select('id')
+								   ->where('fine <','now()',false)
+								   ->order_by('fine','desc')
+								   ->limit(1)
+								   ->get_compiled_select('giornate');
+				$subquery=$this->db->select('id')
+								   ->where('id_giornata','('.$subsubquery.')',false)
+								   ->get_compiled_select('partite');
+				$query=$this->db->select('id_user,sum(punteggio) punti')
+								->where_in('id_partita',$subquery,false)
+								->group_by('id_user')
+								->order_by('punti','asc')
+								->limit(1)
+								->get('pronostici');
+				return $query->row();
 			}
 	}
 ?>

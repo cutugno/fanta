@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">
-			<h3 class="page-header"><i class="fa fa-bars" aria-hidden="true"></i> Classifica</h3>
+			<h3 class="page-header"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Classifica</h3>
 			<!--
 			<ol class="breadcrumb">
 			  <li><i class="fa fa-lightbulb-o" aria-hidden="true"></i><a href="<?= site_url('admin/users') ?>"> Admin</a></li>

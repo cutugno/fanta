@@ -64,15 +64,8 @@ class Standings extends CI_Controller {
 	}
 	
 	private function standings_load() {
-		// query classifica 
-		
-		$punti=$this->pronostici->calcolaClassifica();
-		$standings=[];
-		foreach ($punti as $val) {
-			$standings[$val->id_user]=$val->punti;
-		}
-		
-		return $standings; // array
+		$this->load->helper('standings_helper');
+		return get_standings(); // nell'helper standings
 	}
 	
 	private function chartjs_standings_chart($standings) {
