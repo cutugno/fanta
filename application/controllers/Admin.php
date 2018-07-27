@@ -361,53 +361,6 @@ class Admin extends CI_Controller {
 	
 	}
 	
-	public function user_update() {
-		if (!$this->input->post()) {
-			$error="Nessun dato inviato";
-			audit_log("Error: $error. (".$this->uri->uri_string().")");
-			http_response_code(400);
-			die($error);
-		}
-				
-		$mandatory=["username","nome"];
-		foreach ($mandatory as $m) {
-			if (!$this->input->post($m)) {
-				$error="Campo $m obbligatorio";
-				audit_log("Error: $error. (".$this->uri->uri_string().")");
-				http_response_code(400);
-				die($error);
-				break;
-			}
-		} 
-		
-		$post=$this->input->post();
-		$old_username=$post['old_username'];unset($post['old_username']);
-		if (empty($post['password'])){
-			unset($post['password']);
-		}else{
-			$post['password']=sha1($post['password']);
-		}
-		unset($post['c_password']);
-		
-		if (!$this->users->getUser($old_username)) {
-			$error="Impossibile modificare $old_username. Utente non trovato";
-			audit_log("Error: $error. (".$this->uri->uri_string().")");
-			http_response_code(404);
-			echo $error;
-		}else{
-			if ($this->users->updateUser($post,$old_username)) {
-				$msg="Utente $old_username aggiornato";
-				audit_log("Message: $msg. (".$this->uri->uri_string().")");
-				echo $post['username'];
-			}else{
-				$error="Errore db aggiornamento utente $old_username";
-				audit_log("Error: $error. (".$this->uri->uri_string().")");
-				http_response_code(500);
-				die($error);
-			}
-		}		
-	}	
-	
 	public function user_delete($username=NULL) {
 		if (NULL==$username) {
 			$error="Nessun utente selezionato";

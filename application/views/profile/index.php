@@ -16,6 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>	
 	<div class="panel panel-default">	
+		<div class="panel-heading">
+			<h3 class="panel-title"><strong><?= $user->username ?></strong></h3>
+		</div>
 		<div class="panel-body">
 			<?php 
 				$attr=array("class"=>"form-horizontal","id"=>"user_form");
@@ -24,21 +27,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			?>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<div class="form-group">
-						<label class="col-sm-3 control-label">Username *</label>
-						<div class="col-sm-9">
-							<?php 
-								$attr = array(
-									'name'          => 'username',		
-									'id'			=> 'username',				
-									'class'			=> 'form-control',
-									'placeholder'	=> 'Inserisci username',
-									'value'			=> $user->username
-								);
-								echo form_input($attr);					
-							?>	            
-						</div>
-					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Nome *</label>
 						<div class="col-sm-9">

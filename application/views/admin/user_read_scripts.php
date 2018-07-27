@@ -3,7 +3,7 @@
 	
 	var user_validation=function(form) {
 		var dati=$("#user_form").serialize();
-		var url="<?= site_url('admin/user_update') ?>";
+		var url="<?= site_url('profile/update') ?>";
 		$.post(url, dati)
 			.done(function(resp) {
 				swal({
