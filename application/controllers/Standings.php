@@ -104,16 +104,23 @@ class Standings extends CI_Controller {
 					array("id"=>"1","label"=>"FANTAUTENTE","type"=>"string"),
 					array("id"=>"2","label"=>"PUNTI","type"=>"number"),
 					array("id"=>"3","label"=>"","type"=>"string","role"=>"annotation"),					
-					array("id"=>"4","label"=>"","type"=>"string","role"=>"style")				
+					array("id"=>"4","label"=>"","type"=>"string","role"=>"style"),				
+					array("id"=>"5","label"=>"","type"=>"string","role"=>"tooltip","p"=> array("html"=>true))				
 				   );
 		$rows=[];
 		foreach ($standings as $key=>$val) {
+			if ($avatar=$this->users->getUserAvatar($key)) {
+				$avatar='<img src="'.site_url($avatar).'" alt="Avatar '.$key.'" style="border:none" />';
+			}else{
+				$avatar='<i class ="fa fa-user fa-4x"></i>';
+			}
 			$color=$this->points_to_hex($val);
 			$c=[];
-			$c['c'][]=array("v"=>$key,"f"=>$key); // in f posso metterci <img src... /> con l'avatar
+			$c['c'][]=array("v"=>$key);
 			$c['c'][]=array("v"=>$val);			
 			$c['c'][]=array("v"=>$val);	// punti nella colonna	
 			$c['c'][]=array("v"=>"color:#".$color);	// colore colonna
+			$c['c'][]=array("v"=>$avatar);	// immagine
 			$rows[]=$c;
 		}
 		$chart['cols']=$cols;

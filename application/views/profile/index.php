@@ -87,9 +87,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>								
 				</div>
-				<div class="col-xs-12 col-sm-6">
-					<label>Carica avatar</label>
-					
+				<div class="col-xs-12 col-sm-6">					
+					<div class="row">
+						<div class="form-group col-xs-12">
+							  <label for="picture">Carica avatar</label> 
+							  <span>(max 1MB; solo .jpg o .png o .gif; possibilmente immagini quadrate)</span>
+							  <!-- nuovo -->
+							  <div class="row">
+								<div class="col-xs-12">
+									<?php if (isset($user->avatar)) : ?>
+									<img src="<?php echo site_url($user->avatar); ?>" id="target" />
+									<?php endif ?>
+								</div>
+								<div class="col-xs-12 spacer"></div>
+								<div class="col-xs-12">
+									<button type="button" class="btn btn-primary btn-xs" id="newfile"><i class="fa fa-upload"></i> Carica nuova immagine</button>
+								</div>
+							</div>
+							<br><br>
+							<div id="picture-preview" style="display:none"></div>
+							
+							<!-- preview container picture -->
+							<div id="preview-template" style="display: none;">
+								  <div class="dz-preview dz-file-preview">
+								  <div class="dz-details">
+									<img data-dz-thumbnail />
+								  </div>
+								  <button type="button" class="btn btn-primary btn-xs" data-dz-remove>Rimuovi file</button></button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="row">

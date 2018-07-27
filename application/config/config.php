@@ -4,6 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /* nome file .log audit */
 define ('CUSTOMLOG','FANTA_log-'.date("Y-m-d"));
 
+/* avatar folder */
+define ('AVATAR_FOLDER','public/avatar/');
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

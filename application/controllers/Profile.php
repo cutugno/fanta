@@ -10,6 +10,7 @@ class Profile extends CI_Controller {
 			audit_log("Error: login non effettuato. (".$this->uri->uri_string().")");
 			redirect('login');
 		}
+		$this->load->helper('string');
 	}	
 	
 	public function index()	{	
@@ -24,6 +25,7 @@ class Profile extends CI_Controller {
 		$this->load->view('profile/index');
 		$this->load->view('common/scripts');
 		$this->load->view('profile/index_scripts');
+		$this->load->view('scripts/dropzone');
 		$this->load->view('common/close');		
 	
 	}
@@ -74,5 +76,57 @@ class Profile extends CI_Controller {
 			}
 		}		
 	}	
+	
+	public function dropfoto($username=NULL) {
+		
+		// ajax caricamento avatar con dropzone.js
+		
+		if (NULL==$username) {
+			$error="Username non inviato";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		if (!$this->users->getUser($username)) {
+			$error="Username inesistente";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(404);
+			die($error);
+		}
+				
+		$ext = end((explode(".", $_FILES['file']['name'])));
+		$uploadfile=$this->random_name($ext);
+		$dest=AVATAR_FOLDER.$uploadfile;		
+		$echodest=AVATAR_FOLDER.basename($dest);	
+		$tmpfile=$_FILES['file']['tmp_name'];
+
+		if (move_uploaded_file($tmpfile,$dest)) { 
+			$dati=array("avatar"=>$echodest);
+			if ($this->users->updateUser($dati,$username)) {
+				echo "Caricamento immagine completata";
+			}else{
+				$error="Errore aggiornamento utente";
+				audit_log("Error: $error. (".$this->uri->uri_string().")");
+				http_response_code(500);
+				die($error);
+			}
+		}else{
+			$error="Errore caricamento avatar";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(500);
+			die($error);
+		}
+		
+	}
+	
+	private function random_name($ext) {		
+		$random=random_string('alnum');
+		if (file_exists(AVATAR_FOLDER.$random.".".$ext)) {
+			return $this->random_name($ext);
+		}
+		return $random.".".$ext;
+	}
+
 }
 

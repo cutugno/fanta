@@ -51,5 +51,15 @@
 				return $query->result();
 			}
 			
+			public function getUserAvatar($username) {
+				$query=$this->db->select('avatar')
+								->where('username',$username)
+								->get('users');
+				if ($res=$query->row()) {
+					return $res->avatar;
+				}
+				return false;
+			}
+			
 	}
 ?>

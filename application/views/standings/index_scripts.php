@@ -34,7 +34,7 @@
 	};
 	
 	$(function() {
-		drawJSChart();
+		//drawJSChart();
 	});
 	
 
@@ -70,7 +70,7 @@
 			startup: true
 		  },
 		  legend: {position: 'none'},
-		  allowHtml: true,
+		  tooltip: {isHtml: true},
 		  vAxis: {minValue:0, maxValue:<?= $max_standings ?>}
 		};
 	  chart.draw(data, options);
