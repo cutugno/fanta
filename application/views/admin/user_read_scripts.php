@@ -13,7 +13,7 @@
 				  timer: 2000,
 				  type: 'success'
 				});
-				//setTimeout(function(){ window.location.href="<?= site_url('admin/users/') ?>"+resp }, 2000);
+				setTimeout(function(){ window.location.href="<?= site_url('admin/users/') ?>"+resp }, 2000);
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});

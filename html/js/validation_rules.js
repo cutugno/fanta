@@ -62,7 +62,8 @@ var validation_userupdate_rules=
 			required: true
 		},
 		password: {
-			minlength: 6
+			minlength: 6,
+			regex: "^[a-zA-Z0-9]+$"
 		},
 		c_password: {
 			minlength: 6,
@@ -81,7 +82,8 @@ var validation_user_messages=
 		username: "Campo obbligatorio",
 		password: {
 		  required: "Campo obbligatorio",
-		  minlength: "Lunghezza minima 6 caratteri",			  
+		  minlength: "Lunghezza minima 6 caratteri",	
+		  regex: "Formato non valido: solo caratteri alfanumerici"		  
 		},
 		c_password: {
 		  required: "Campo obbligatorio",
