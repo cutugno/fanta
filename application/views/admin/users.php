@@ -97,23 +97,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								?>	  
 							</div>
 						</div>		
-						<!--	
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Avatar</label>
+							<label class="col-sm-3 control-label">Livello</label>
 							<div class="col-sm-9">
 								<?php 
-									$attr = array(
-										'name'          => 'avatar',						
-										'id'            => 'avatar',						
-										'class'			=> 'form-control',
-										'type'			=> 'file',
-										'placeholder'	=> 'Carica avatar (.jpg, max 300kb)'
+									$attr = array(					
+										'class'			=> 'form-control'
 									);
-									echo form_input($attr);					
+									echo form_dropdown('level',array(1=>"Utente",2=>"Admin"),1,$attr);					
 								?>	  
 							</div>
 						</div>		
-						-->					
+									
 					</div>
 				</div>
 				<div class="row">

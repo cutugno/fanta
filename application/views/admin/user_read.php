@@ -98,7 +98,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								echo form_password($attr);					
 							?>	             
 						</div>
-					</div>								
+					</div>		
+					<div class="form-group">
+							<label class="col-sm-3 control-label">Livello</label>
+							<div class="col-sm-9">
+								<?php 
+									$attr = array(					
+										'class'			=> 'form-control'
+									);
+									echo form_dropdown('level',array(1=>"Utente",2=>"Admin"),$user->level,$attr);					
+								?>	  
+							</div>
+						</div>							
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<div class="row">
