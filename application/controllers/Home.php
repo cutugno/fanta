@@ -15,7 +15,7 @@ class Home extends CI_Controller {
 	public function index()	{	
 		$this->output->enable_profiler(false);
 		
-		if (SKIP_DASHBOARD)	redirect('predictions');
+		redirect('predictions');
 		
 		// controllo login
 		if (!$this->session->user) {

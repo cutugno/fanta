@@ -7,9 +7,6 @@ define ('CUSTOMLOG','FANTA_log-'.date("Y-m-d"));
 /* avatar folder */
 define ('AVATAR_FOLDER','public/avatar/');
 
-/* skip dashboard */
-define ('SKIP_DASHBOARD',true);
-
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
