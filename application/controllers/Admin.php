@@ -7,7 +7,6 @@ class Admin extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		
-		/*
 		if (!$this->session->user) {
 			audit_log("Error: login non effettuato. (".$this->uri->uri_string().")");
 			redirect('login');
@@ -15,7 +14,6 @@ class Admin extends CI_Controller {
 			audit_log("Error: accesso non autorizzato. (".$this->uri->uri_string().")");
 			show_404();
 		}
-		*/ 
 	}
 		
 	
