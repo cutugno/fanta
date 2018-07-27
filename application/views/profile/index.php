@@ -92,7 +92,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-xs-12">
 							  <label for="picture">Carica avatar</label> 
 							  <span>(max 1MB; solo .jpg o .png o .gif; possibilmente immagini quadrate)</span>
-							  <!-- nuovo -->
 							  <div class="row">
 								<div class="col-xs-12">
 									<?php if (isset($user->avatar)) : ?>
@@ -110,11 +109,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<!-- preview container picture -->
 							<div id="preview-template" style="display: none;">
 								  <div class="dz-preview dz-file-preview">
-								  <div class="dz-details">
-									<img data-dz-thumbnail />
+									  <div class="dz-details">
+										<img data-dz-thumbnail />
+									  </div>
+									  <button type="button" class="btn btn-primary btn-xs" data-dz-remove>Rimuovi file</button></button>
 								  </div>
-								  <button type="button" class="btn btn-primary btn-xs" data-dz-remove>Rimuovi file</button></button>
-								</div>
 							</div>
 						</div>
 					</div>

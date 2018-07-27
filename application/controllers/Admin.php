@@ -355,6 +355,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/user_read');
 		$this->load->view('common/scripts');
 		$this->load->view('admin/user_read_scripts');
+		$this->load->view('scripts/dropzone');
 		$this->load->view('common/close');	
 	
 	}
