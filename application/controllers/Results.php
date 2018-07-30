@@ -40,6 +40,18 @@ class Results extends CI_Controller {
 			$giornate=[];
 		}
 		
+		$allscores=[];
+		if ($giornate=$this->giornate->getArchivedGiornate()) {
+			foreach ($giornate as $key=>&$giornata) {
+				$fine=convertDateTime($giornata->fine);
+				$giornata->msg="Giornata terminata il ".$fine;
+				$allscores[$key]['giornata']=$giornata;
+				$this->load->helper('scores_helper');
+				$allscores[$key]['scores']=get_scores($giornata->id);
+			}
+		}
+		$data['allscores']=$allscores;		
+		
 		$data['giornate']=$giornate;
 		
 		$this->load->view('common/open',$data);

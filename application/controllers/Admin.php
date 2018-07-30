@@ -453,10 +453,10 @@ class Admin extends CI_Controller {
 		if ($giornate=$this->giornate->getArchivedGiornate()) {
 			foreach ($giornate as $key=>$giornata) {
 				$allscores[$key]['giornata']=$giornata;
-				$allscores[$key]['scores']=$this->scores_read($giornata->id);
+				$this->load->helper('scores_helper');
+				$allscores[$key]['scores']=get_scores($giornata->id);
 			}
 		}
-		//var_dump ($allscores);
 		$data['allscores']=$allscores;		
 		
 		$this->load->view('common/open',$data);
@@ -495,29 +495,6 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/scores_single_scripts');
 		$this->load->view('common/close');
 	}
-	
-	private function scores_read($id_giornata=NULL) {
-		// recupero punteggi per giornata
-		
-		$matches_scores=[];
-		if ($scores=$this->pronostici->getGiornataPronostici($id_giornata)) {
-			foreach ($scores as $val) {
-				switch ($val->punteggio) {
-					case 0:
-						$val->class="danger";
-						break;
-					case 3:	
-						$val->class="info";
-						break;
-					case 5:
-						$val->class="success";
-						break;
-				}
-				$match_scores[$val->id_partita][$val->id_user][]=$val;
-			}
-		}
-				
-		return $match_scores;
-	}
+
 }
 
