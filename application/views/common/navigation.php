@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php endif ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">       		
-        <li><a href="<?= site_url('profile') ?>">Profilo</a></li>
+        <li><a href="<?= site_url('profile') ?>">Hola, <?= $this->session->user->username ?> !</a></li>
         <li><a href="<?= site_url('logout') ?>">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
