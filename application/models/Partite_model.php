@@ -68,7 +68,7 @@
 			public function getNextGiornataPartite() {
 				// select p.id_giornata,g.descr,p.partita,p.risultato,g.inizio,g.fine from partite p
 				// join giornate g on p.id_giornata=g.id
-				// where g.id = (SELECT * FROM giornate where inizio > now() order by inizio limit 1)	
+				// where g.id = (SELECT id FROM giornate where inizio > now() order by inizio limit 1)	
 				
 				$subquery=$this->db->select('id')
 								   ->where('inizio >','now()',false)

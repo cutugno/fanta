@@ -143,5 +143,53 @@
 								->get('pronostici');
 				return $query->row();
 			}
+			
+			public function getNextGiornataPronostici() {
+				/* 
+				select pr.*,p.partita,g.descr,g.inizio from pronostici pr
+				join partite p on pr.id_partita=p.id
+				join giornate g on p.id_giornata=g.id
+				where p.id_giornata=(select id from giornate where inizio > now() order by inizio limit 1)
+				*/ 
+				$subquery=$this->db->select('id')
+								->where('inizio >','now()',false)
+								->order_by('inizio')
+								->limit(1)
+								->get_compiled_select('giornate');
+				$query=$this->db->select('pr.*,p.partita,g.descr,g.inizio')
+								->join('partite p','pr.id_partita=p.id')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('p.id_giornata','('.$subquery.')',false)
+								->order_by('pr.id_user')
+								->order_by('p.id')
+								->get('pronostici pr');
+				return $query->result();
+								
+			}
+			
+			public function getLastGiornataPronosticiRisultati() {
+				/*
+				select pr.id_user,pr.pronostico,pr.punteggio,pr.id_partita,p.partita,p.risultato,g.descr,g.inizio from pronostici pr
+				join partite p on pr.id_partita = p.id
+				join giornate g on p.id_giornata = g.id
+				where g.id=
+				(SELECT id FROM giornate where fine < now() order by fine desc limit 1)
+				order by id_user,id_partita
+				*/
+				$subquery=$this->db->select('id')
+								   ->where('fine <','now()',false)
+								   ->order_by('fine','desc')
+								   ->limit(1)
+								   ->get_compiled_select('giornate');
+				$query=$this->db->select('pr.id_user,pr.pronostico,pr.punteggio,pr.id_partita,p.partita,p.risultato,g.descr,g.inizio')
+								->join('partite p','pr.id_partita=p.id')
+								->join('giornate g','p.id_giornata=g.id')
+								->where('g.id','('.$subquery.')',false)
+								->order_by('id_user')
+								->order_by('id_partita')
+								->get('pronostici pr');
+				return $query->result();
+				
+			}
 	}
 ?>

@@ -12,7 +12,30 @@ class Home extends CI_Controller {
 		}
 	}
 	
-	public function index()	{	
+	public function index() {
+		// tutti i pronostici della prossima giornata		
+		$pronostici=$this->pronostici->getNextGiornataPronostici();
+		$giornata_pronostici=[];
+		foreach ($pronostici as $val) {
+			$giornata_pronostici[$val->id_partita][]=$val;
+		}
+		$data['pronostici']=$giornata_pronostici;
+		
+		// tutti i risultati dell'ultima giornata
+		$risultati=$this->pronostici->getLastGiornataPronosticiRisultati();
+		var_dump ($risultati);
+		exit();
+
+		$this->load->view('common/open',$data);
+		$this->load->view('common/navigation');
+		$this->load->view('home/index');
+		$this->load->view('common/scripts');
+		$this->load->view('home/index_scripts');
+		$this->load->view('common/close');	
+	
+	}
+	
+	public function dashboard()	{	
 		$this->output->enable_profiler(false);
 		
 		redirect('predictions');
