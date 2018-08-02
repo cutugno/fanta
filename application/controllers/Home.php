@@ -22,9 +22,9 @@ class Home extends CI_Controller {
 		$data['pronostici']=$giornata_pronostici;
 		
 		// tutti i risultati dell'ultima giornata
-		$risultati=$this->pronostici->getLastGiornataPronosticiRisultati();
-		var_dump ($risultati);
-		exit();
+		$data['giornata']=$this->giornate->getLastGiornata();
+		$this->load->helper('scores_helper');
+		$data['scores']=get_scores($data['giornata']->id);
 
 		$this->load->view('common/open',$data);
 		$this->load->view('common/navigation');

@@ -46,6 +46,13 @@
 								->delete('giornate');
 				return $this->db->affected_rows() > 0;
 			}
-	
+			
+			public function getLastGiornata() {
+				$query=$this->db->where('fine <','now()',false)
+								->order_by('fine','desc')
+								->limit(1)
+								->get('giornate');
+				return $query->row();
+			}
 	}
 ?>
