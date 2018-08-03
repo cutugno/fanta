@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>	
 					</div>
 					<?php endif ?>
-					<?php if ($scores) : ?>
+					<?php if (isset($scores)) : ?>
 					<!-- panel risultati -->
 					<div class="col-xs-12">
 						<div class="panel panel-default">
