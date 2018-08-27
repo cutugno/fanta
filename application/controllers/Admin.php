@@ -451,9 +451,9 @@ class Admin extends CI_Controller {
 		// riepilogo punteggi per tutte le giornate archiviate
 		$allscores=[];
 		if ($giornate=$this->giornate->getArchivedGiornate()) {
+			$this->load->helper('scores_helper');
 			foreach ($giornate as $key=>$giornata) {
-				$allscores[$key]['giornata']=$giornata;
-				$this->load->helper('scores_helper');
+				$allscores[$key]['giornata']=$giornata;				
 				$allscores[$key]['scores']=get_scores($giornata->id);
 			}
 		}
@@ -483,8 +483,8 @@ class Admin extends CI_Controller {
 			audit_log("Error: $error. (".$this->uri->uri_string().")");
 			show_404();
 		}
-		
-		$scores=$this->scores_read($id_giornata);
+		$this->load->helper('scores_helper');
+		$scores=get_scores($id_giornata);
 		$data['scores']=$scores;
 		$data['giornata']=$giornata;
 		
@@ -495,6 +495,28 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/scores_single_scripts');
 		$this->load->view('common/close');
 	}
+	
+	public function scores_edit($id_giornata=NULL) {
+		// sblocco giornata	per modifica risultati (archvied = 0)
+		
+		if (NULL==$id_giornata) {
+			// bad request
+			$error="Nessuna giornata selezionata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(400);
+			die($error);
+		}
+		
+		if ($this->giornate->unlockGiornata($id_giornata)) {
+			redirect('admin/results');
+		}else{
+			$error="Giornata npn sbloccata";
+			audit_log("Error: $error. (".$this->uri->uri_string().")");
+			http_response_code(500);
+			die($error);
+		}	
+	}
+			
 
 }
 

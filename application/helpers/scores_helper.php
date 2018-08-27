@@ -7,7 +7,7 @@ if ( ! function_exists('get_scores'))
 	{
 		// recupero punteggi per giornata
 		$CI =& get_instance();
-		$matches_scores=[];
+		$match_scores=[];
 		if ($scores=$CI->pronostici->getGiornataPronostici($id_giornata)) {
 			foreach ($scores as $val) {
 				switch ($val->punteggio) {

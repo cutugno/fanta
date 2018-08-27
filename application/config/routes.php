@@ -54,6 +54,7 @@ $route['logout'] = 'login/logout';
 $route['admin'] = 'admin/users';
 $route['admin/users/(:any)'] = 'admin/user_read/$1';
 $route['admin/scores/(:num)'] = 'admin/scores_single/$1';
+$route['admin/scores/edit/(:num)'] = 'admin/scores_edit/$1';
 $route['admin/scores'] = 'admin/scores_all';
 
 $route['default_controller'] = 'home';

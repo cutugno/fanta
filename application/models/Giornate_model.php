@@ -54,5 +54,12 @@
 								->get('giornate');
 				return $query->row();
 			}
+			
+			public function unlockGiornata($id_giornata) {
+				$query=$this->db->set('archived',0)
+								->where('id',$id_giornata)
+								->update('giornate');
+				return $this->db->affected_rows() > 0;
+			}
 	}
 ?>

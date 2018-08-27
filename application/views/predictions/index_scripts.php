@@ -23,6 +23,7 @@
 	});
 		
 	var predictions_validation=function(form) {
+		$("#btn_create").prop("disabled","true");
 		var dati=$(form).serialize();
 		var url="<?= site_url('predictions/update') ?>";
 		$.post(url, dati)
@@ -40,6 +41,7 @@
 			})
 			.fail(function(resp) {
 				swal({title:"", html:resp.responseText, type: "error"});
+				$("#btn_create").prop("disabled","false");
 			});
 	};
 	

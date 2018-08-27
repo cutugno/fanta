@@ -152,8 +152,8 @@
 				where p.id_giornata=(select id from giornate where inizio > now() order by inizio limit 1)
 				*/ 
 				$subquery=$this->db->select('id')
-								->where('inizio >','now()',false)
-								->order_by('inizio')
+								->where('fine >','now()',false)
+								->order_by('fine')
 								->limit(1)
 								->get_compiled_select('giornate');
 				$query=$this->db->select('pr.*,p.partita,g.descr,g.inizio')

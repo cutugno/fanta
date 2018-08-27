@@ -73,7 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														'class'				=> 'form-control input_result',
 														'value'				=> $partita->risultato
 													);
-													echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
+													//echo form_input($attr,'','required regex="^\d+\-\d+$"'.$giornata->editable);		
+													echo form_input($attr,'','regex="^\d+\-\d+$"'.$giornata->editable);		
 												?>		
 											</td>
 										  </tr>
@@ -105,6 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										if (($giornata->archived==1) && (!isset($giornata->warning))) {
 											// pulsante guarda punteggi
 											echo '<a href="'.site_url('admin/scores/'.$giornata->id).'" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i> Guarda punteggi</a>';
+											echo '&nbsp;<a href="'.site_url('admin/scores/edit/'.$giornata->id).'" class="btn btn-warning"><i class="fa fa-edit" aria-hidden="true"></i> Modifica risultati</a>';
 										}
 									}
 									echo form_close();
