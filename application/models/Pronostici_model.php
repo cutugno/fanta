@@ -54,30 +54,33 @@
 				join giornate g on p.id_giornata = g.id
 				set g.archived = 1,
 				pr.punteggio = 
-				if ( 
-					(left(p.risultato,(locate('-',risultato))-1) = left(pr.pronostico,(locate('-',risultato))-1))
-						and
-					(right(p.risultato,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
-				,5,
-					if (
-						(
-							(left(p.risultato,(locate('-',risultato))-1) > right(p.risultato,(locate('-',risultato))-1))
-								and
-							(left(pr.pronostico,(locate('-',risultato))-1) > right(pr.pronostico,(locate('-',risultato))-1))
-						)
-						or
-						(
-							(left(p.risultato,(locate('-',risultato))-1) = right(p.risultato,(locate('-',risultato))-1))
-								and
-							(left(pr.pronostico,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
-						)
-						or
-						(
-							(left(p.risultato,(locate('-',risultato))-1) < right(p.risultato,(locate('-',risultato))-1))
-								and
-							(left(pr.pronostico,(locate('-',risultato))-1) < right(pr.pronostico,(locate('-',risultato))-1))
-						)
-					,3,0)
+				if (p.risultato==''
+				,0,
+					if ( 
+						(left(p.risultato,(locate('-',risultato))-1) = left(pr.pronostico,(locate('-',risultato))-1))
+							and
+						(right(p.risultato,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
+					,5,
+						if (
+							(
+								(left(p.risultato,(locate('-',risultato))-1) > right(p.risultato,(locate('-',risultato))-1))
+									and
+								(left(pr.pronostico,(locate('-',risultato))-1) > right(pr.pronostico,(locate('-',risultato))-1))
+							)
+							or
+							(
+								(left(p.risultato,(locate('-',risultato))-1) = right(p.risultato,(locate('-',risultato))-1))
+									and
+								(left(pr.pronostico,(locate('-',risultato))-1) = right(pr.pronostico,(locate('-',risultato))-1))
+							)
+							or
+							(
+								(left(p.risultato,(locate('-',risultato))-1) < right(p.risultato,(locate('-',risultato))-1))
+									and
+								(left(pr.pronostico,(locate('-',risultato))-1) < right(pr.pronostico,(locate('-',risultato))-1))
+							)
+						,3,0)
+					)
 				)
 				where pr.id_partita in (select id from partite where id_giornata = $id_giornata)
 				";
