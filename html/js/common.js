@@ -75,3 +75,5 @@
 			oneLine: true
 		});	
 	});
+	
+	$(".input_result").inputmask("9{1,2}-9{1,2}");

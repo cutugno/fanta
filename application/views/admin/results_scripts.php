@@ -20,7 +20,6 @@
 			swal({title:"", html:"<?= $this->session->user_read_400 ?>", type: "warning"});
 		<?php endif ?>
 		$(".espandi").click();
-		$(".input_result").inputmask("9{1,2}-9{1,2}");
 	});
 		
 	var results_validation=function(form) {
