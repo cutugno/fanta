@@ -100,12 +100,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th class="text-center">PARTITA</th>
 												<th class="text-center" style="border-right:2px solid #000">RISULTATO</th>
 												<?php foreach (array_keys(reset($scores)) as $user) : ?>
-												<th class="text-center"><?= strtoupper($user) ?></th>
+												<th class="text-center user-cell"><?= strtoupper($user) ?></th>
 												<?php endforeach ?>										
 											</tr>
 										</thead>	
 										<tbody>	
-											<?php foreach ($scores as $key=>$score) : ?>
+											<?php foreach ($scores as $score) : ?>
 											<tr>
 												<td class="text-center"><?= reset($score)[0]->partita ?></td>
 												<td class="text-center" style="border-right:2px solid #000"><?= reset($score)[0]->risultato ?></td>
@@ -120,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td class="border-top:2px solid #000"></td>
 												<td class="text-right" style="border-right:2px solid #000;border-top:2px solid #000"><strong>PUNTEGGIO</strong></td>
 												<?php foreach (array_keys($score) as $user) : ?>
-												<td class="text-center" style="border-top:2px solid #000">
+												<td class="text-center total-cell" style="border-top:2px solid #000">
 												<?php 
 													$punteggio=0;
 													foreach ($scores as $score) {

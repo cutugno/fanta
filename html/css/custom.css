@@ -20,6 +20,11 @@ cursor:pointer;
 text-align:center;
 }
 
+.golden {
+border: 2px solid gold !important;
+background-color: gold
+}
+
 @media (min-width: 768px) {
 	.navbar {
 		border-radius: 0px;

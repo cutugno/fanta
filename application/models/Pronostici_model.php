@@ -54,7 +54,7 @@
 				join giornate g on p.id_giornata = g.id
 				set g.archived = 1,
 				pr.punteggio = 
-				if (p.risultato==''
+				if (p.risultato =''
 				,0,
 					if ( 
 						(left(p.risultato,(locate('-',risultato))-1) = left(pr.pronostico,(locate('-',risultato))-1))
@@ -193,6 +193,14 @@
 								->get('pronostici pr');
 				return $query->result();
 				
+			}
+			
+			public function setCrv ($id,$pronostico,$punteggio) {
+				$query=$this->db->set('pronostico',$pronostico)
+								->set('punteggio',$punteggio)
+								->where('id',$id)
+								->update('pronostici');
+				return $query;
 			}
 	}
 ?>

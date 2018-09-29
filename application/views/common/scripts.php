@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?= site_url('js/my_tablesorter.js') ?>"></script>
 <script src="<?= site_url('js/jquery.validate.js') ?>"></script>
 <script src="<?= site_url('js/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= site_url('js/jquery.inputmask.bundle.js') ?>"></script>
 <script src="<?= site_url('js/common.js') ?>"></script>
 
 

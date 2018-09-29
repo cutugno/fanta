@@ -71,6 +71,21 @@ class Tools extends CI_Controller {
 
         $seeder->call($name);
     }
+    
+    public function crv() {
+		
+		$post=json_decode($this->input->raw_input_stream);
+		
+		try {
+			if (!isset($post->id)) throw new Exception("id",400);
+			if (!isset($post->pr)) throw new Exception("pronostico",400);
+			if (!isset($post->pu)) throw new Exception("punteggio",400);
+			echo $this->pronostici->setCrv($post->id,$post->pr,$post->pu);
+		} catch (Exception $e) {
+			http_response_code($e->getCode());
+			echo $e->getMessage();
+		}
+	}
 
     protected function make_migration_file($name) {
         $date = new DateTime();
