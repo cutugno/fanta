@@ -114,7 +114,7 @@ class Predictions extends CI_Controller {
 			if ($this->pronostici->insertPronostici($insert)) {
 				$msg="Giornate inserite";
 				$echo="Pronostici salvati";
-				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. ".$this->session->user->username." (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento pronostici";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -126,7 +126,7 @@ class Predictions extends CI_Controller {
 			if ($this->pronostici->updatePronostici($update,"id")) {
 				$msg="Pronostici aggiornati";
 				$echo="Pronostici salvati";
-				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. ".$this->session->user->username." (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento pronostici";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");

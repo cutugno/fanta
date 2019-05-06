@@ -105,7 +105,6 @@ class Admin extends CI_Controller {
 				$giornata->fine=convertDateTime($giornata->fine,1);
 				$giornata->matches=$this->partite->getGiornataPartite($giornata->id);
 				$giornata->cpronostici=$this->pronostici->countGiornataPronostici($giornata->id);
-				audit_log(json_encode($giornata));	
 				$now=date("d/m/Y H:i:s");
 				if (compareDates($giornata->fine.":00",">",$now)) {
 					// GIORNATA TERMINATA
@@ -137,8 +136,6 @@ class Admin extends CI_Controller {
 		$insert=$update=[];
 		foreach ($post['giornata'] as $giornata) {
 			// se fine < inizio non salvo il record
-			audit_log($giornata['inizio']);
-			audit_log($giornata['fine']);
 			if (compareDates($giornata['inizio'].":00","<",$giornata['fine'].":00")) {
 				$giornata['inizio']=revertDateTime($giornata['inizio']);
 				$giornata['fine']=revertDateTime($giornata['fine']);
@@ -163,7 +160,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->insertGiornate($insert)) {
 				$msg="Giornate inserite";
 				$echo="Calendario salvato";
-				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. ".$this->session->user->username." (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db inserimento giornate";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
@@ -175,7 +172,7 @@ class Admin extends CI_Controller {
 			if ($this->giornate->updateGiornate($update,"id")) {
 				$msg="Giornate aggiornate";
 				$echo="Calendario salvato";
-				audit_log("Message: $msg. (".$this->uri->uri_string().")");
+				audit_log("Message: $msg. ".$this->session->user->username."  (".$this->uri->uri_string().")");
 			}else{
 				$error="Errore db aggiornamento giornate";
 				audit_log("Error: $error. (".$this->uri->uri_string().")");
